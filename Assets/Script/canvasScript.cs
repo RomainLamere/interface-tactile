@@ -23,7 +23,6 @@ public class canvasScript : MonoBehaviour
         {
             time += Time.deltaTime;
         }
-        print(time);
         if (time > 1)
         {
             if (firstTry)

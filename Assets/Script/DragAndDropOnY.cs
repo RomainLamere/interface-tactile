@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragAndDropOnY : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     RectTransform rectTransform;
-    [SerializeField] private Canvas canvas;
+    [SerializeField] private Canvas partition;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
     }
     public void OnDrag(PointerEventData eventData)
     {
-        print("OnDrag");
-        rectTransform.anchoredPosition += eventData.delta/canvas.scaleFactor;
+        rectTransform.anchoredPosition += new Vector2(0, eventData.delta.x) / partition.scaleFactor;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        print("OnBeginDrag");
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        print("OnEndDrag");
     }
 
 }

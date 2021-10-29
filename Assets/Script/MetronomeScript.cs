@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MetronomeScript : MonoBehaviour
 {
-    float time = 0;
     bool up = true;
     // Start is called before the first frame update
     void Start()
@@ -16,23 +15,20 @@ public class MetronomeScript : MonoBehaviour
     void Update()
     {
             
-        time += Time.deltaTime;
         if(up)
         {
             gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x + 0.003f, gameObject.transform.localScale.y + 0.003f, 0);
-            if (time > 1)
+            if (gameObject.transform.localScale.x > 3)
             {
                 up = false;
-                time = 0;
             }
         }
         else
         {
             gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x - 0.003f, gameObject.transform.localScale.y - 0.003f, 0);
-            if (time > 1)
+            if (gameObject.transform.localScale.x < 2)
             {
                 up = true;
-                time = 0;
             }
         }
     }
