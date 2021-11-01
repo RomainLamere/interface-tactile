@@ -16,32 +16,32 @@ public class GradientNoteScript : MonoBehaviour
     void Update()
     {
         //print(GetComponent<RectTransform>().localPosition.y);
-        if(GetComponent<RectTransform>().localPosition.y <= -50)
+        if(GetComponent<RectTransform>().localPosition.y <= -32)
         {
             print("rouge");
             GetComponent<Image>().color = gradient.Evaluate(0);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > -50 && GetComponent<RectTransform>().localPosition.y <= -40)
+        else if(GetComponent<RectTransform>().localPosition.y > -32 && GetComponent<RectTransform>().localPosition.y <= -28)
         {
             GetComponent<Image>().color = gradient.Evaluate(0.12f);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > -40 && GetComponent<RectTransform>().localPosition.y <= -30)
+        else if(GetComponent<RectTransform>().localPosition.y > -28 && GetComponent<RectTransform>().localPosition.y <= -19)
         {
             GetComponent<Image>().color = gradient.Evaluate(0.3f);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > -30 && GetComponent<RectTransform>().localPosition.y <= -20)
+        else if(GetComponent<RectTransform>().localPosition.y > -19 && GetComponent<RectTransform>().localPosition.y <= -13)
         {
             GetComponent<Image>().color = gradient.Evaluate(0.45f);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > -20 && GetComponent<RectTransform>().localPosition.y <= -10)
+        else if(GetComponent<RectTransform>().localPosition.y > -13 && GetComponent<RectTransform>().localPosition.y <= -4)
         {
             GetComponent<Image>().color = gradient.Evaluate(0.65f);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > -10 && GetComponent<RectTransform>().localPosition.y <= 0)
+        else if(GetComponent<RectTransform>().localPosition.y > -4 && GetComponent<RectTransform>().localPosition.y <= 1)
         {
             GetComponent<Image>().color = gradient.Evaluate(0.8f);
         }
-        else if(GetComponent<RectTransform>().localPosition.y > 0 && GetComponent<RectTransform>().localPosition.y <= 10)
+        else if(GetComponent<RectTransform>().localPosition.y > 1)
         {
             GetComponent<Image>().color = gradient.Evaluate(1f);
         }
