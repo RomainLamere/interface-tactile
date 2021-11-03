@@ -18,7 +18,6 @@ public class GradientNoteScript : MonoBehaviour
         //print(GetComponent<RectTransform>().localPosition.y);
         if(GetComponent<RectTransform>().localPosition.y <= -32)
         {
-            print("rouge");
             GetComponent<Image>().color = gradient.Evaluate(0);
         }
         else if(GetComponent<RectTransform>().localPosition.y > -32 && GetComponent<RectTransform>().localPosition.y <= -28)
