@@ -7,11 +7,17 @@ public class SampleScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 {
     public GameObject sideBar;
     // Start is called before the first frame update
+    CircleCollider2D circleCollider;
     void Start()
     {
-        
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        gameObject.SetActive(false);
+        col.gameObject.SetActive(false);
+    }
     // Update is called once per frame
     void Update()
     {
