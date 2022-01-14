@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayTheKey : MonoBehaviour
 {
     public AudioSource audioSource;
+    public WSCommunication wSCommunication;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +21,6 @@ public class PlayTheKey : MonoBehaviour
     public void OnClick()
     {
         audioSource.Play();
+        wSCommunication.SendMessage(this.name);
     }
 }
