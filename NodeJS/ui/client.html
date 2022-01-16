@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Node Server UI</title>
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+
+            html,body{
+                padding: 0;
+                margin: 0;
+                color: white;
+                font-family: sans-serif;
+                font-size: 20px;
+            }
+
+            .main{
+                height: 100vh;
+                background-color: #303030;
+            }
+
+            .input-container{
+                padding: 5em;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            label{
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            button{
+                position: relative;
+                z-index: 1;
+                cursor: pointer;
+                width: max-content;
+                font-size: 20px;
+                border: none;
+                padding: 5px 10px;
+                background-color: darkgreen;
+                color: white;
+                transform: scale(1);
+                box-shadow: 0px 0px 0px transparent;
+                transition: box-shadow 0.2s ease;
+            }
+
+            button:hover{
+                box-shadow: 0px 0px 10px darkgreen;
+            }
+
+            #message{
+                border: 1px solid transparent;
+                border-radius: 6px;
+                background-color: #424242;
+                font-size: 16px;
+                padding: 5px;
+                color: white;
+            }
+
+            #message:focus{
+                outline: none;
+                border: 1px solid gray;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+        <script>
+            const socket = io();
+            socket.on("toNodeUI", (arg) => {
+                console.log(`NodeJS server sent : ${arg}`);
+            });
+            function sendMessage(){
+                const event = document.getElementById("event").value;
+                const message = document.getElementById("message").value;
+                socket.emit("fromNodeUI", {destination:event,message:message});
+            };
+        </script>
+    </head>
+    <body>
+        <div class="main">
+            <div class="input-container">
+                <div>
+                    <label for="event">Select where you want to send your message</label>
+                    <select name="events" id="event">
+                        <option value="fromNodeUI">Node server</option>
+                        <option value="eventToScreen">Vue front-end</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="message">Type the message you want to send</label>
+                    <input type="text" name="message" id="message">
+                </div>
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </body>
+</html>

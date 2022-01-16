@@ -19,25 +19,18 @@ export default {
       connection: null
     }
   },
-  methods : {
-    sendMessage(){
-      this.connection.send("coucou");
+  sockets:{
+    connect: () => {
+      console.log('Connected to the server');
+    },
+    eventToScreen: (data) => {
+      console.log(`Server says : ${data}`);
     }
   },
-  created: function() {
-    console.log("Starting connection to WebSocket Server")
-    this.connection = new WebSocket("ws://09d8-134-59-215-253.ngrok.io/")
-
-    this.connection.onmessage = function(event) {
-      console.log(event);
-
+  methods : {
+    sendMessage(){
+      this.$socket.emit('eventFromScreen','Coucou du screen')
     }
-
-    this.connection.onopen = function(event) {
-      console.log(event)
-      console.log("Successfully connected to the echo websocket server...")
-    }
-
   }
 }
 </script>
