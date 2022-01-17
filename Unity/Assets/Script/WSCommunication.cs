@@ -1,38 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using WebSocketSharp;
+using Socket.Quobject.SocketIoClientDotNet.Client;
 
 public class WSCommunication : MonoBehaviour
 {
-    WebSocket ws;
+    private QSocket socket;
     private void Start()
     {
-        ws = new WebSocket("ws://09d8-134-59-215-253.ngrok.io/");
-        ws.Connect();
-        ws.OnMessage += (sender, e) =>
-        {
-            print(sender);
-            Debug.Log("Message Received from " + ((WebSocket)sender).Url + ", Data : " + e.Data);
-        };
+        socket = IO.Socket("http://localhost:3000");
+
         
     }
     private void Update()
     {
-        if (ws == null)
-        {
-            return ;
-        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ws.Send("ws://7d42-134-59-215-253.ngrok.io/");
+            socket.Emit("fromUnity","wesh wesh");
             print("message envoyé");
         }
     }
 
     public void SendMessage(string message)
     {
-        ws.Send(message);
+        socket.Emit("fromUnity",message);
     }
     
 }
