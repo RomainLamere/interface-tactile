@@ -26,15 +26,11 @@ public class PlayTheKey : MonoBehaviour
     {
         audioSource.Play();
         image.color = new Color(0.5f, 0.5f, 0.5f, 1);
+        wSCommunication.SendMessage(name);
 
     }
     public void OnMouseExit()
     {
         image.color = new Color(1f, 1f, 1f, 1);
-    }
-
-    public void OnMouseDown()
-    {
-        wSCommunication.SendMessage(name);
     }
 }

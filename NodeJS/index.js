@@ -36,6 +36,11 @@ io.on("connection", (socket) => {
         console.log(`Message from screen : ${data}`);
     });
 
+    socket.on("fromUnity", (data) => {
+        console.log(`Message from unity : ${data}`);
+    });
+
+
     console.log(`Client connected - ${socket.id}`);
 });
 
