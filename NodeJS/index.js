@@ -17,6 +17,10 @@ const io = new Server(httpServer, {
     allowEIO3: true
 });
 
+function log(message){
+    console.log(`INFO | ${message}`);
+}
+
 io.on("connection", (socket) => {
     socket.emit("toNodeUI", "Hello Node UI");
 
@@ -28,17 +32,22 @@ io.on("connection", (socket) => {
      * }
      */
     socket.on("fromNodeUI", (data) => {
-        console.log(`Received data from UI: ${JSON.stringify(data)}`);
+        log(`Received data from UI: ${JSON.stringify(data)}`);
         io.emit(data.destination, data.message);
     });
 
     socket.on("eventFromScreen", (data) => {
-        console.log(`Message from screen : ${data}`);
+        log(`Message from screen : ${data}`);
     });
 
     socket.on("fromUnity", (data) => {
-        console.log(`Message from unity : ${data}`);
+        log(`Message from unity : ${data}`);
         io.emit('eventToScreen',data);
+    });
+
+    socket.on("newBPM", (data) => {
+        log(`New BPM : ${data}`);
+        io.emit('changeBPM', data)
     });
 
 
