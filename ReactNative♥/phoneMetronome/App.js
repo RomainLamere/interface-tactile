@@ -17,7 +17,8 @@ import {
   useColorScheme,
   View,
   Vibration,
-  Button, TextInput,
+  Button,
+  TextInput,
 } from 'react-native';
 import socketIOClient from 'socket.io-client';
 
@@ -30,7 +31,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const App: () => Node = () => {
-  const ENDPOINT = '192.168.43.60:3000';
+  const [ENDPOINT, setEndpoint] = useState('192.168.43.60:3000');
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -40,13 +41,16 @@ const App: () => Node = () => {
   const [bpm, setBpm] = useState(0);
   const vibrationDuration = 100;
   const [text, setText] = useState('');
+  const [textAdd, setTextAdd] = useState('');
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on('FromAPI', data => {
+    const socket = socketIOClient('http://' + ENDPOINT + ':3000/');
+    socket.on('changeBPM', data => {
       setResponse(data);
+      console.debug(data);
+      setBpm(parseInt(data));
     });
-  }, []);
+  }, [ENDPOINT]);
 
   useEffect(() => {
     console.debug('in');
@@ -61,10 +65,28 @@ const App: () => Node = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <Text style={{alignSelf: 'center', marginTop: 20}}>{response}</Text>
-      <TextInput placeholder={"enter your bpm"} keyboardType='numeric' onChangeText={(newText)=>setText(newText)} defaultValue={text}/>
-      <Button onPress={() => setBpm(text === '' ? 0 : parseInt(text))} title={'enter'} />
-      <Button title={"stop"} onPress={Vibration.cancel}/>
+      <Text style={{alignSelf: 'center', marginTop: 20}}>
+        From server : {response}
+      </Text>
+      <TextInput
+        placeholder={'enter your bpm'}
+        keyboardType="numeric"
+        onChangeText={newText => setText(newText)}
+        defaultValue={text}
+      />
+      <Button
+        onPress={() => setBpm(text === '' ? 0 : parseInt(text))}
+        title={'enter'}
+      />
+      <Button title={'stop'} onPress={Vibration.cancel} />
+      <TextInput
+        placeholder={'enter the address'}
+        keyboardType="numeric"
+        onChangeText={newText => setTextAdd(newText)}
+        defaultValue={textAdd}
+        onEndEditing={() => setEndpoint(textAdd)}
+      />
+      <Text>Current address is : {ENDPOINT}</Text>
     </SafeAreaView>
   );
 };
