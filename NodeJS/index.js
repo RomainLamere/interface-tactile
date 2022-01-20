@@ -38,6 +38,7 @@ io.on("connection", (socket) => {
 
     socket.on("fromUnity", (data) => {
         console.log(`Message from unity : ${data}`);
+        io.emit('eventToScreen',data);
     });
 
 
