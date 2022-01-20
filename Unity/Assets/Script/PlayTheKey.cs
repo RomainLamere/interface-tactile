@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PlayTheKey : MonoBehaviour
+public class PlayTheKey : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public AudioSource audioSource;
     public WSCommunication wSCommunication;
@@ -22,15 +23,17 @@ public class PlayTheKey : MonoBehaviour
     }
 
 
-    public void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         audioSource.Play();
-        image.color = new Color(0.5f, 0.5f, 0.5f, 1);
-        wSCommunication.SendMessage(name);
+        if(transform.parent.name=="Blanches") image.color = new Color(0.5f, 0.5f, 0.5f, 1);
+        else image.color = new Color(0.25f, 0.25f, 0.25f, 1);
+        wSCommunication.SendMessage(this.name);
 
     }
-    public void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        image.color = new Color(1f, 1f, 1f, 1);
+        if (transform.parent.name == "Blanches") image.color = new Color(1f, 1f, 1f, 1);
+        else image.color = new Color(0f, 0f, 0f, 1);
     }
 }
