@@ -9,7 +9,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: 'SideMenu'
+};
 </script>
 
 <style lang="css" scoped>
