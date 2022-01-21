@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
      */
     socket.on("fromNodeUI", (data) => {
         log(`Received data from UI: ${JSON.stringify(data)}`);
-        io.emit(data.destination, data.message);
+		io.emit(data.destination, data.message);
     });
 
     socket.on("eventFromScreen", (data) => {
@@ -44,10 +44,12 @@ io.on("connection", (socket) => {
         log(`Message from unity : ${data}`);
         io.emit('eventToScreen',data);
     });
-
-    socket.on("newBPM", (data) => {
-        log(`New BPM : ${data}`);
-        io.emit('changeBPM', data)
+	
+	socket.on("newBPM", (data) => {
+        const start = Date.now() + 5000;
+		const objBPM = "{ 'bpm':'" + data + "', 'timestamp':'"+start+"'}";
+		log(`Change BPM : ${objBPM}`);
+		io.emit('changeBPM', objBPM)
     });
 
 
