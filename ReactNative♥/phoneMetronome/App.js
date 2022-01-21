@@ -46,9 +46,12 @@ const App: () => Node = () => {
   useEffect(() => {
     const socket = socketIOClient('http://' + ENDPOINT + ':3000/');
     socket.on('changeBPM', data => {
-      setResponse(data);
+      setResponse(JSON.stringify(data));
       console.debug(data);
-      setBpm(parseInt(data));
+      let eta_ms = data.timestamp - Date.now();
+      setTimeout(() => {
+        setBpm(data.bpm);
+      }, eta_ms);
     });
   }, [ENDPOINT]);
 
