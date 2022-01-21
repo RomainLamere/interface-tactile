@@ -37,7 +37,7 @@ export default {
   }
 
   *{
-    box-sizing: border-box; 
+    box-sizing: border-box;
   }
 
   html,body, #app{

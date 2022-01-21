@@ -3,6 +3,9 @@
     Message: {{ msg }}
     <input type="number" v-model="bpm">
     <button @click="sendBPM()">Send new BPM</button>
+    <av-waveform id="la"
+        audio-src="sonoiseaux.mp3"
+    ></av-waveform>
   </div>
 </template>
 
