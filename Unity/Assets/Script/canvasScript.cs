@@ -36,7 +36,6 @@ public class canvasScript : MonoBehaviour
 
     public void OnMouseDown()
     {
-        print("yo");
         clicPosition =  Camera.main.ScreenToWorldPoint(Input.mousePosition); ;
         time = 0;
         isClicked = true;

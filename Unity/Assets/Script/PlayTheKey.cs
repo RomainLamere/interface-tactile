@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PlayTheKey : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PlayTheKey : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public AudioSource audioSource;
     public WSCommunication wSCommunication;
@@ -14,6 +14,7 @@ public class PlayTheKey : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         image = GetComponent<Image>();
         audioSource = GetComponent<AudioSource>();
+        wSCommunication = FindObjectOfType<WSCommunication>();
     }
 
     // Update is called once per frame
@@ -23,7 +24,7 @@ public class PlayTheKey : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         audioSource.Play();
         if(transform.parent.name=="Blanches") image.color = new Color(0.5f, 0.5f, 0.5f, 1);
@@ -31,9 +32,11 @@ public class PlayTheKey : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         wSCommunication.SendMessage(this.name);
 
     }
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
         if (transform.parent.name == "Blanches") image.color = new Color(1f, 1f, 1f, 1);
         else image.color = new Color(0f, 0f, 0f, 1);
     }
+
+
 }
