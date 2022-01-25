@@ -1,27 +1,23 @@
 <template>
   <div class="side-menu-container">
-    <div class="menu track">
-        <img src="@/assets/icons/forward-button.png" alt="forward-button">
-    </div>
-    <div class="menu light">light</div>
-    <div class="menu options">options</div>
+    <the-table></the-table>
   </div>
 </template>
 
 <script>
+import TheTable from './TheTable.vue';
 export default {
+  components: { TheTable },
   name: 'SideMenu'
 };
 </script>
 
 <style lang="css" scoped>
-.side-menu-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+
+.side-menu-container{
   background-color: #0067bb;
-  min-width: 110px;
+  padding: 20px 20px;
+  min-width: 200px;
 }
 
 .menu img{

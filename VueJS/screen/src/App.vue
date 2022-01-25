@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <side-menu></side-menu>
-    <router-view></router-view>
+    <workspace></workspace>
   </div>
 </template>
 
 <script>
 import SideMenu from './components/SideMenu.vue';
+import Workspace from './components/Workspace.vue';
 
 export default {
   name: 'App',
   components: {
-    SideMenu
+    SideMenu,
+    Workspace
   },
   data: function() {
     return {
