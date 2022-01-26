@@ -15,9 +15,21 @@ export default {
 <style lang="css" scoped>
 
 .side-menu-container{
-  background-color: #0067bb;
+  background-color: #0095ff;
   padding: 20px 20px;
-  min-width: 200px;
+  width: 10%;
+  min-width: 190px;
+  overflow-y: scroll;
+}
+
+.side-menu-container::-webkit-scrollbar{
+  width: 10px;
+}
+
+.side-menu-container::-webkit-scrollbar-thumb{
+  background-color: #ffffff94;
+  border-radius: 10px;
+  height: 8px;
 }
 
 .menu img{

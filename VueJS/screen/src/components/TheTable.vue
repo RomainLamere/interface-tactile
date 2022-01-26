@@ -1,31 +1,74 @@
 <template>
     <div class="main-container">
         <div class="table-container">
-            <label for="a" class="zone a"></label>
             <input type="radio" name="zone" id="a" value="A" @click="showInstruments($event)">
-            <label for="b" class="zone b"></label>
+            <label for="a" class="zone a"></label>
             <input type="radio" name="zone" id="b" value="B" @click="showInstruments($event)">
-            <label for="c" class="zone c"></label>
+            <label for="b" class="zone b"></label>
             <input type="radio" name="zone" id="c" value="C" @click="showInstruments($event)">
-            <label for="d" class="zone d"></label>
+            <label for="c" class="zone c"></label>
             <input type="radio" name="zone" id="d" value="D" @click="showInstruments($event)">
+            <label for="d" class="zone d"></label>
         </div>
-        <div>
-            afficher les listes en fct de la variable selectedZone
+        <div v-if="selectedZone === 'A'" class="instru-list">
+            <drag v-for="(instru, index) in instruA" :key="index" class="instru" :data="{zone: 'A', instru: instru}">
+                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            </drag>
+        </div>
+        <div v-if="selectedZone === 'B'" class="instru-list">
+            <drag v-for="(instru, index) in instruB" :key="index" class="instru" :data="{zone: 'B', instru: instru}">
+                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            </drag>
+        </div>
+        <div v-if="selectedZone === 'C'" class="instru-list">
+            <drag v-for="(instru, index) in instruC" :key="index" class="instru" :data="{zone: 'C', instru: instru}">
+                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            </drag>
+        </div>
+        <div v-if="selectedZone === 'D'" class="instru-list">
+            <drag v-for="(instru, index) in instruD" :key="index" class="instru" :data="{zone: 'D', instru: instru}">
+                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            </drag>
         </div>
     </div>
 </template>
 <script>
+import { Drag } from 'vue-easy-dnd';
+
 export default {
+    components:{
+        Drag
+    },
     data(){
         return{
-            selectedZone: ''
+            selectedZone: '',
+            instruA:[
+                {instru: 'piano'}
+            ],
+            instruB:[
+                {instru: 'piano'},
+                {instru: 'guitar'},
+                {instru: 'drum'},
+                {instru: 'piano'},
+                {instru: 'guitar'},
+                {instru: 'drum'}
+            ],
+            instruC:[
+                {instru: 'piano'}
+            ],
+            instruD:[
+                {instru: 'piano'}
+            ],
         }
     },
     methods: {
         showInstruments(event){
-            if(event.target.checked){
-                this.selectedZone = event.target.value; 
+            if(this.selectedZone != event.target.value){
+                if(event.target.checked){
+                    this.selectedZone = event.target.value; 
+                }
+            }else{
+                this.selectedZone = '';
             }
             console.log(this.selectedZone);
         }
@@ -50,11 +93,12 @@ export default {
     .table-container{
         height: 100%;
         width: 100%;
+        padding: 2px;
         display: flex;
         flex-wrap: wrap;
         align-content: flex-end;
         justify-content: space-between;
-        background-color: gray;
+        background-color: #282828;
     }
 
     .zone{
@@ -114,6 +158,32 @@ export default {
     .d::before{
         content: "D";
         /* color: yellow; */
+    }
+
+    input[type=radio]:checked + label{
+        border: 6px solid #ffffff69;
+    }
+
+    .instru-list{
+        display: flex;
+        flex-direction: column;
+        padding-top: 1em;
+    }
+
+    .instru{
+        width: 120px;
+        height: 120px;
+        border-radius: 70px;
+        margin: 10px auto;
+        background-color: #282828;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .instru img{        
+        width: 70px;
+        height: 70px;
     }
 
 </style>
