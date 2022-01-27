@@ -17,20 +17,39 @@ public class OpenPiano : MonoBehaviour
     {
         
     }
-
+    public float Distance(Vector2 pos1, Vector2 pos2)
+    {
+        return Mathf.Sqrt(Mathf.Pow(pos1.x - pos2.x, 2) + Mathf.Pow(pos1.y - pos2.y, 2));
+    }
     public void OpenThePiano()
     {
         GameObject newPiano = Instantiate(pianoPrefab,parent.transform.parent);
         print("scale " + pianoPrefab.GetComponent<RectTransform>().sizeDelta.x);
-        if(parent.GetComponent<RectTransform>().eulerAngles.z == 90)
+        GameObject[] go = GameObject.FindGameObjectsWithTag("spot");
+        Vector2 pos1 = parent.GetComponent<RectTransform>().localPosition;
+        GameObject mySpot = go[0];
+
+
+        foreach (GameObject o in go)
         {
-            newPiano.GetComponent<RectTransform>().Rotate(0f, 0f, 90f);
-            newPiano.GetComponent<RectTransform>().localPosition = new Vector3(760, 0f, 0f);
+            if (Distance(pos1, o.GetComponent<RectTransform>().localPosition) < Distance(pos1, mySpot.GetComponent<RectTransform>().localPosition))
+            {
+                mySpot = o;
+            }
+        }
+        print(parent.GetComponent<RectTransform>().name);
+        print(pos1);
+        print(mySpot.name);
+
+
+        if (mySpot.GetComponent<RectTransform>().localPosition.y>0)
+        {
+            newPiano.GetComponent<RectTransform>().Rotate(0f, 0f, 180f);
         }
         else
         {
-            newPiano.GetComponent<RectTransform>().Rotate(0f, 0f, -90f);
-            newPiano.GetComponent<RectTransform>().localPosition = new Vector3(-760, 0f, 0f);
+            newPiano.GetComponent<RectTransform>().Rotate(0f, 0f, 0f);
         }
+        newPiano.GetComponent<RectTransform>().localPosition = mySpot.GetComponent<RectTransform>().localPosition;
     }
 }

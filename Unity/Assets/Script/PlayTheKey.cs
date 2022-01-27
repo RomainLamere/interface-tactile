@@ -30,7 +30,6 @@ public class PlayTheKey : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if(transform.parent.name=="Blanches") image.color = new Color(0.5f, 0.5f, 0.5f, 1);
         else image.color = new Color(0.25f, 0.25f, 0.25f, 1);
         wSCommunication.SendMessage(this.name);
-
     }
     public void OnPointerUp(PointerEventData eventData)
     {

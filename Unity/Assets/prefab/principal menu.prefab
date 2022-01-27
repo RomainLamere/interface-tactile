@@ -1217,7 +1217,7 @@ GameObject:
   - component: {fileID: 3760335524098657873}
   - component: {fileID: 8897285685147393523}
   - component: {fileID: 1704970101153684900}
-  - component: {fileID: 4085387649041562571}
+  - component: {fileID: 1721026176512475895}
   m_Layer: 0
   m_Name: record Circle
   m_TagString: Untagged
@@ -1328,8 +1328,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4085387649041562571}
-        m_TargetAssemblyTypeName: RecordCircleScript, Assembly-CSharp
+      - m_Target: {fileID: 1721026176512475895}
+        m_TargetAssemblyTypeName: RecordCirlce, Assembly-CSharp
         m_MethodName: OnClic
         m_Mode: 1
         m_Arguments:
@@ -1338,9 +1338,9 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4085387649041562571
+--- !u!114 &1721026176512475895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1349,13 +1349,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3861983270429202062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca55f737ae8acb439f5ff7c555b596d, type: 3}
+  m_Script: {fileID: 11500000, guid: 22e0ebf18d7126b41871fa1f374b519a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image1: {fileID: 4268586871863933850}
-  image2: {fileID: 3978651442005623235}
-  recorderImage: {fileID: 0}
-  circleOfRecord: {fileID: 0}
 --- !u!1 &3978651442005623235
 GameObject:
   m_ObjectHideFlags: 0

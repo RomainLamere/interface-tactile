@@ -10,9 +10,11 @@ public class canvasScript : MonoBehaviour
     private bool isClicked = false;
     public GameObject prefabMenu;
     private Vector2 clicPosition;
+    public EventSystem eventSystem;
     // Start is called before the first frame update
     void Start()
     {
+        eventSystem = FindObjectOfType<EventSystem>();
         print("load");
     }
 
@@ -21,7 +23,6 @@ public class canvasScript : MonoBehaviour
     {
         if (isClicked && time < 1)
         {
-            print(time);
             time += Time.deltaTime;
         }
         if (time >= 1 && isClicked)
@@ -36,13 +37,15 @@ public class canvasScript : MonoBehaviour
 
     public void OnMouseDown()
     {
-        clicPosition =  Camera.main.ScreenToWorldPoint(Input.mousePosition); ;
-        time = 0;
-        isClicked = true;
+        if (eventSystem.IsPointerOverGameObject() == false)
+        {
+            clicPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); ;
+            time = 0;
+            isClicked = true;
+        }
     }
     public void OnMouseUp()
     {
-        print("ya");
         isClicked = false;
     }
 
@@ -50,14 +53,13 @@ public class canvasScript : MonoBehaviour
     {
         float cameraWidth = Camera.main.scaledPixelWidth;
         float cameraHeight = Camera.main.scaledPixelHeight;
-        print("clic position x" + clicPosition.x);
-        if(clicPosition.x > 0)
+        if(clicPosition.y > 0)
         {
-            menu.GetComponent<RectTransform>().Rotate(0f, 0f, 90f);
+            menu.GetComponent<RectTransform>().Rotate(0f, 0f, 180f);
         }
         else
         {
-            menu.GetComponent<RectTransform>().Rotate(0f, 0f, -90f);
+            menu.GetComponent<RectTransform>().Rotate(0f, 0f, 0f);
         }
     }
 }

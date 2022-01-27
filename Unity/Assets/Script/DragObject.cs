@@ -13,7 +13,6 @@ public class DragObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
     public void OnDrag(PointerEventData eventData)
     {
-        
         rectTransform.anchoredPosition += eventData.delta/canvas.scaleFactor;
     }
     public void OnBeginDrag(PointerEventData eventData)
@@ -27,6 +26,5 @@ public class DragObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        canvas.GetComponent<canvasScript>().OnMouseUp();
     }
 }

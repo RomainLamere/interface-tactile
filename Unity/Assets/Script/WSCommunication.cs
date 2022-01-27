@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
 using SocketIOClient;
 using SocketIOClient.Newtonsoft.Json;
+using System.IO; // for FileStream
 
 
 
@@ -24,6 +25,7 @@ public class WSCommunication : MonoBehaviour
         }
             );
         socket.JsonSerializer = new NewtonsoftJsonSerializer();
+        print("connect");
         socket.Connect();
     }
     private void Update()
@@ -39,6 +41,13 @@ public class WSCommunication : MonoBehaviour
     {
         socket.Emit("fromUnity", message);
         print(message);
+    }
+
+    public void SendRecord(FileStream file, string zone)
+    {
+        print("Send Record");
+        string str = "sendRecord" + zone;
+        socket.Emit(str, File.ReadAllBytes(file.Name));
     }
 
 }
