@@ -10,7 +10,9 @@
         <div>select track<br>from table</div>
       </template>
     </div>
-    <div class="track"></div>
+    <div class="track">
+      <audio :src="recordUrl"></audio>
+    </div>
   </drop>
 </template>
 <script>
@@ -22,14 +24,16 @@ export default {
   },
   data() {
     return {
-      trackZone: "",
-      instrument: "",
+      trackZone: '',
+      instrument: '',
+      recordUrl: ''
     };
   },
   methods: {
     trackDropped(e) {
       this.trackZone = e.data.zone;
       this.instrument = e.data.instru.instru;
+      this.recordUrl = e.data.recordUrl;
     },
   }
 };

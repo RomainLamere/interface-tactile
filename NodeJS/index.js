@@ -63,6 +63,17 @@ io.on("connection", (socket) => {
       lights.setLights(data.message);
     });
 
+    socket.on("sendRecordA", (data) => {
+      /**
+       * {instrument: string, record: byte[]}
+       */
+      const buffer = Buffer.from(data.record);
+      // const arrayBuffer = Uint8Array.from(buffer).buffer;
+      // fs.writeFileSync(__dirname + '/test.wav', buffer);
+      // console.log(arrayBuffer);
+      io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
+    })
+
 
     console.log(`Client connected - ${socket.id}`);
   });
