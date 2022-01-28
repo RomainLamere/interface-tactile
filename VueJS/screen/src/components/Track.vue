@@ -11,7 +11,9 @@
       </template>
     </div>
     <div class="track">
-      <audio :src="recordUrl"></audio>
+      <button @click="soundControl()" :disabled="!recordAsArrayBuffer">
+        {{soundPaused? 'play': 'pause'}}
+      </button>
     </div>
   </drop>
 </template>
@@ -26,15 +28,57 @@ export default {
     return {
       trackZone: '',
       instrument: '',
-      recordUrl: ''
+      recordAsArrayBuffer: null,
+      audioContext: new AudioContext(),
+      soundPaused: true,
+      firstPlay: true
     };
   },
   methods: {
     trackDropped(e) {
       this.trackZone = e.data.zone;
-      this.instrument = e.data.instru.instru;
-      this.recordUrl = e.data.recordUrl;
+      this.instrument = e.data.instrument;
+      this.recordAsArrayBuffer = e.data.record;
     },
+    playSound(){
+      if(this.recordAsArrayBuffer){
+        const audioBuffer = this.copyBuff();
+        let source = this.audioContext.createBufferSource();
+        source.onended = async () => {
+          this.audioContext.close().then(() => {
+            this.soundPaused = true;
+            this.firstPlay = true;
+          });
+          this.audioContext = new AudioContext();
+        };
+        this.audioContext.decodeAudioData(audioBuffer, (decoded) =>{
+          source.buffer = decoded;
+          source.connect(this.audioContext.destination);
+          source.start(0);
+        });
+      }
+    },
+    soundControl(){
+      console.log(this.audioContext);
+      if(this.firstPlay){
+        this.playSound();
+        this.soundPaused = false;
+        this.firstPlay = false;
+      }else if(this.audioContext.state === 'running' && !this.soundPaused) {
+        this.audioContext.suspend().then(() => {
+          this.soundPaused = true;
+        });
+      } else if(this.audioContext.state === 'suspended' && this.soundPaused) {
+        this.audioContext.resume().then(() => {
+          this.soundPaused = false;
+        });
+      } 
+    },
+    copyBuff(){
+      let dst = new ArrayBuffer(this.recordAsArrayBuffer.byteLength);
+      new Uint8Array(dst).set(new Uint8Array(this.recordAsArrayBuffer));
+      return dst;
+    }
   }
 };
 </script>
@@ -88,9 +132,5 @@ export default {
   background-color: #444444;
   border-radius: 4px;
   box-shadow: 2px 2px 3px #222222;
-}
-
-.track audio{
-    display: none;
 }
 </style>

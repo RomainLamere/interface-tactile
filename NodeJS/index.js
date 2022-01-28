@@ -64,20 +64,17 @@ io.on("connection", (socket) => {
     });
 
     socket.on("sendRecordA", (data) => {
-      /**
-       * {instrument: string, record: byte[]}
-       */
-      const buffer = Buffer.from(data.record);
-      // const arrayBuffer = Uint8Array.from(buffer).buffer;
-      // fs.writeFileSync(__dirname + '/test.wav', buffer);
-      // console.log(arrayBuffer);
-      io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
+      // Uncomment the following lines to receive a file from Unity
+      // const buffer = Buffer.from(data.record);
+      // io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
+      
+      const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
+      console.log(fileData);
+      io.emit('addRecord', {zone: 'A', instrument: 'piano', record: fileData});
     })
-
 
     console.log(`Client connected - ${socket.id}`);
   });
-
 
   httpServer.listen(3000);
   console.log('Listening on port 3000');

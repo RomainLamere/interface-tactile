@@ -12,7 +12,7 @@
         </div>
         <div v-if="selectedZone === 'A'" class="instru-list">
             <drag v-for="(record, index) in recordsA" :key="index" class="instru" :data="record">
-                <img :src="require(`@/assets/icons/${record.instru}.png`)" :alt="record.instru">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
             </drag>
         </div>
         <div v-if="selectedZone === 'B'" class="instru-list">
@@ -41,6 +41,7 @@ export default {
     },
     data(){
         return{
+            blobUrl: '',
             selectedZone: '',
             recordsA:[],
             instruB:[
@@ -74,17 +75,18 @@ export default {
     },
     created(){
         this.$options.sockets.addRecord = (data) => {
-            const blob = new Blob(new Uint8Array(data.record), {type: 'audio/x-wav'});
-            const bloburl = URL.createObjectURL(blob);
-            console.log(`Blob url: ${bloburl}`);
             switch(data.zone){
                 case 'A':
-                    this.recordsA.push({zone: data.zone, instru: data.instrument, recordUrl: bloburl});
+                    this.recordsA.push(data);
                     break;
                 default:
-            }       console.log('Pas zone A');
+                    console.log('Pas zone A');
+            }       
         }
-    }
+    },
+    beforeDestroy() {
+        URL.revokeObjectURL(this.blobUrl)
+    },
 }
 </script>
 <style lang="css" scoped>
