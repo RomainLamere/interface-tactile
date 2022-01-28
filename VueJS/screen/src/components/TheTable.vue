@@ -11,8 +11,8 @@
             <label for="d" class="zone d"></label>
         </div>
         <div v-if="selectedZone === 'A'" class="instru-list">
-            <drag v-for="(instru, index) in instruA" :key="index" class="instru" :data="{zone: 'A', instru: instru}">
-                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            <drag v-for="(record, index) in recordsA" :key="index" class="instru" :data="record">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
             </drag>
         </div>
         <div v-if="selectedZone === 'B'" class="instru-list">
@@ -41,10 +41,9 @@ export default {
     },
     data(){
         return{
+            blobUrl: '',
             selectedZone: '',
-            instruA:[
-                {instru: 'piano'}
-            ],
+            recordsA:[],
             instruB:[
                 {instru: 'piano'},
                 {instru: 'guitar'},
@@ -61,6 +60,7 @@ export default {
             ],
         }
     },
+    sockets:{},
     methods: {
         showInstruments(event){
             if(this.selectedZone != event.target.value){
@@ -72,7 +72,21 @@ export default {
             }
             console.log(this.selectedZone);
         }
-    }
+    },
+    created(){
+        this.$options.sockets.addRecord = (data) => {
+            switch(data.zone){
+                case 'A':
+                    this.recordsA.push(data);
+                    break;
+                default:
+                    console.log('Pas zone A');
+            }       
+        }
+    },
+    beforeDestroy() {
+        URL.revokeObjectURL(this.blobUrl)
+    },
 }
 </script>
 <style lang="css" scoped>

@@ -13,7 +13,6 @@
     <div class="tracks">
       <Track></Track>
     </div>
-    <av-waveform id="la" audio-src="sonoiseaux.mp3"></av-waveform>
   </div>
 </template>
 

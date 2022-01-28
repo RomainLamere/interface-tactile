@@ -67,6 +67,10 @@
                 outline: none;
                 border: 1px solid gray;
             }
+
+            .disclaimer{
+                border-top: 1px solid white;
+            }
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
         <script>
@@ -74,11 +78,15 @@
             socket.on("toNodeUI", (arg) => {
                 console.log(`NodeJS server sent : ${arg}`);
             });
+            const fileReader = new FileReader();
             function sendMessage(){
                 const event = document.getElementById("event").value;
                 const message = document.getElementById("message").value;
                 socket.emit("fromNodeUI", {destination:event,message:message});
             };
+            function testSendWavFile(){
+                socket.emit("sendRecordA", "a");
+            }
         </script>
     </head>
     <body>
@@ -98,6 +106,12 @@
                     <input type="text" name="message" id="message">
                 </div>
                 <button onclick="sendMessage()">Send</button>
+                <div class="disclaimer">
+                    <span style="color:indianred">Lancer le front avant </span>(c'est mieux pour écouter)<br>
+                    Pas besoin d'input, le fichier est lu dans le code du serveur.
+                    Le son apparaîtra dans la piste 'A'.
+                </div>
+                <button onclick="testSendWavFile()">Send WAV file</button>
             </div>
         </div>
     </body>
