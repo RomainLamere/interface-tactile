@@ -18,6 +18,24 @@ public class destroy : MonoBehaviour
 
     public void DestroyOnClic(GameObject go)
     {
+        Spot mySpot = GetSpot();
+        mySpot.FreeSpot();
         Destroy(go);
+
+
+    }
+
+    public Spot GetSpot()
+    {
+        GameObject[] spots = GameObject.FindGameObjectsWithTag("spot");
+
+        foreach (GameObject spot in spots)
+        {
+            if (spot.GetComponent<RectTransform>().localPosition == transform.parent.GetComponent<RectTransform>().localPosition)
+            {
+                return spot.GetComponent<Spot>();
+            }
+        }
+        return null;
     }
 }

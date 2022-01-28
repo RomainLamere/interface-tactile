@@ -47,7 +47,20 @@ public class WSCommunication : MonoBehaviour
     {
         print("Send Record");
         string str = "sendRecord" + zone;
-        socket.Emit(str, File.ReadAllBytes(file.Name));
+
+        socket.Emit(str,new RecordObject("piano",File.ReadAllBytes(file.Name)));
     }
 
+}
+[Serializable]
+public class RecordObject
+{
+    public string instrument = "";
+    public byte[] record = null;
+    
+    public RecordObject(string instrument, byte[] record)
+    {
+        this.instrument = instrument;
+        this.record = record;
+    }
 }

@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 156800390}
   - component: {fileID: 156800389}
   m_Layer: 5
-  m_Name: spot4
+  m_Name: spotD
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1257,9 +1257,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 482056433}
   - {fileID: 1785615822}
   - {fileID: 1341662844}
+  - {fileID: 482056433}
   - {fileID: 156800388}
   m_Father: {fileID: 563151292}
   m_RootOrder: 7
@@ -1344,7 +1344,7 @@ GameObject:
   - component: {fileID: 482056435}
   - component: {fileID: 482056434}
   m_Layer: 5
-  m_Name: spot1
+  m_Name: spotC
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1362,7 +1362,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 443219993}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 1341662846}
   - component: {fileID: 1341662845}
   m_Layer: 5
-  m_Name: spot3
+  m_Name: spotB
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3814,7 +3814,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 443219993}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4804,7 +4804,7 @@ GameObject:
   - component: {fileID: 1785615824}
   - component: {fileID: 1785615823}
   m_Layer: 5
-  m_Name: spot2
+  m_Name: spotA
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4822,7 +4822,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 443219993}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
