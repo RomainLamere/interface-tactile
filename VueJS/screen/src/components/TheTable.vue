@@ -16,18 +16,18 @@
             </drag>
         </div>
         <div v-if="selectedZone === 'B'" class="instru-list">
-            <drag v-for="(instru, index) in instruB" :key="index" class="instru" :data="{zone: 'B', instru: instru}">
-                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            <drag v-for="(record, index) in recordsB" :key="index" class="instru" :data="record">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
             </drag>
         </div>
         <div v-if="selectedZone === 'C'" class="instru-list">
-            <drag v-for="(instru, index) in instruC" :key="index" class="instru" :data="{zone: 'C', instru: instru}">
-                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            <drag v-for="(record, index) in recordsC" :key="index" class="instru" :data="record">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
             </drag>
         </div>
         <div v-if="selectedZone === 'D'" class="instru-list">
-            <drag v-for="(instru, index) in instruD" :key="index" class="instru" :data="{zone: 'D', instru: instru}">
-                <img :src="require(`@/assets/icons/${instru.instru}.png`)" :alt="instru.instru">
+            <drag v-for="(record, index) in recordsD" :key="index" class="instru" :data="record">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
             </drag>
         </div>
     </div>
@@ -44,9 +44,9 @@ export default {
             blobUrl: '',
             selectedZone: '',
             recordsA:[],
-            instruB:[],
-            instruC:[],
-            instruD:[],
+            recordsB:[],
+            recordsC:[],
+            recordsD:[],
         }
     },
     sockets:{},
