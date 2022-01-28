@@ -15,7 +15,8 @@ const io = new Server(httpServer, {
     origin: "http://localhost:8080",
     credentials: true
   },
-  allowEIO3: true
+  allowEIO3: true,
+  maxHttpBufferSize: 1e8
 });
 
 function log(message){
@@ -66,6 +67,7 @@ io.on("connection", (socket) => {
     socket.on("sendRecordA", (data) => {
       // Uncomment the following lines to receive a file from Unity
       // const buffer = Buffer.from(data.record);
+      // console.log(buffer);
       // io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
       
       const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');

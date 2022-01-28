@@ -11,7 +11,7 @@
       <button @click="sendColor()">Send new color</button>
     </div>
     <div class="tracks">
-      <Track></Track>
+      <Track v-for="(n, index) in numberOfTracks" :key="index" v-on:sourceadded="disableTrack()"></Track>
     </div>
   </div>
 </template>
@@ -28,7 +28,8 @@ export default {
     return {
       msg: '',
       bpm: 0,
-      color: '#000000'
+      color: '#000000',
+      numberOfTracks: 1
     }
   },
   sockets:{},
@@ -40,6 +41,10 @@ export default {
     sendColor(){
       console.log('Send color', this.hexToRGB(this.color));
       this.$socket.emit('changeLights',this.color)
+    },
+    disableTrack(){
+      this.numberOfTracks++;
+      console.log('Src added in track');
     },
     hexToRGB(h){
       let r = 0, g = 0, b = 0;
@@ -81,13 +86,15 @@ export default {
 
   .tracks{
     min-height: 70%;
+    max-height: 95%;
     background-color: #535353;
     padding: 1.5em 1em;
-    overflow-x: scroll;
+    overflow: scroll;
   }
 
   .tracks::-webkit-scrollbar{
     height: 10px;
+    width: 10px;
   }
 
   .tracks::-webkit-scrollbar-thumb{

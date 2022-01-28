@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     trackDropped(e) {
+      this.$emit('sourceadded');
       this.trackZone = e.data.zone;
       this.instrument = e.data.instrument;
       this.recordAsArrayBuffer = e.data.record;
@@ -86,6 +87,7 @@ export default {
 .drop-zone {
   display: inline-flex;
   min-width: 100%;
+  margin: 10px 0;
 }
 
 .drop-in{

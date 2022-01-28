@@ -44,20 +44,9 @@ export default {
             blobUrl: '',
             selectedZone: '',
             recordsA:[],
-            instruB:[
-                {instru: 'piano'},
-                {instru: 'guitar'},
-                {instru: 'drum'},
-                {instru: 'piano'},
-                {instru: 'guitar'},
-                {instru: 'drum'}
-            ],
-            instruC:[
-                {instru: 'piano'}
-            ],
-            instruD:[
-                {instru: 'piano'}
-            ],
+            instruB:[],
+            instruC:[],
+            instruD:[],
         }
     },
     sockets:{},
@@ -79,8 +68,15 @@ export default {
                 case 'A':
                     this.recordsA.push(data);
                     break;
-                default:
-                    console.log('Pas zone A');
+                case 'B':
+                    this.recordsB.push(data);
+                    break;
+                case 'C':
+                    this.recordsC.push(data);
+                    break;
+                case 'D':
+                    this.recordsD.push(data);
+                    break;
             }       
         }
     },
