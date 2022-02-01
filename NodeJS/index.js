@@ -60,8 +60,9 @@ io.on("connection", (socket) => {
     });
 
     socket.on("changeLights", (data) => {
-      log(`Change Lights : ${data.message}`);
-      lights.setLights(data.message);
+      log(`Change Lights : ${data}`);
+      io.emit('newLights', data);
+      lights.setLights(data);
     });
 
     socket.on("sendRecordA", (data) => {
