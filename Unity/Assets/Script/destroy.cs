@@ -18,11 +18,17 @@ public class destroy : MonoBehaviour
 
     public void DestroyOnClic(GameObject go)
     {
-        Spot mySpot = GetSpot();
-        mySpot.FreeSpot();
+
         Destroy(go);
 
 
+    }
+
+    public void DestroyInstrument(GameObject go)
+    {
+        Spot mySpot = GetSpot();
+        mySpot.FreeSpot();
+        Destroy(go);
     }
 
     public Spot GetSpot()

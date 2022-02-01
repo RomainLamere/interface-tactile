@@ -13,7 +13,7 @@ using System.IO; // for FileStream
 public class WSCommunication : MonoBehaviour
 {
     public SocketIOUnity socket;
-
+    public Image frame;
     private void Start()
     {
         var uri = new Uri("http://192.168.43.60:3000");
@@ -35,6 +35,13 @@ public class WSCommunication : MonoBehaviour
             socket.Emit("fromUnity", "wesh wesh");
             print("message envoyé");
         }
+
+        socket.On("newLights", ChangeFrameColor);
+    }
+
+    private void ChangeFrameColor(SocketIOResponse obj)
+    {
+        print(obj.GetValue());
     }
 
     public void SendMessage(string message)
@@ -50,6 +57,8 @@ public class WSCommunication : MonoBehaviour
 
         socket.Emit(str,new RecordObject("piano",File.ReadAllBytes(file.Name)));
     }
+
+
 
 }
 [Serializable]
