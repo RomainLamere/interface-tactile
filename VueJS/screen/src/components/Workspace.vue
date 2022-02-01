@@ -1,14 +1,11 @@
 <template>
   <div class="workspace-container">
     <div>
-      Message: {{ msg }}
       <input type="number" v-model="bpm">
       <button @click="sendBPM()">Send new BPM</button>
     </div>
     <div class="color-picker">
-      <input type="color" name="color" id="color" v-model="color">
-      {{color}}
-      <button @click="sendColor()">Send new color</button>
+      <LightsTrack></LightsTrack>
     </div>
     <div class="tracks">
       <Track v-for="(n, index) in trackArray" :key="index" v-on:sourceadded="disableTrack()"></Track>
@@ -17,18 +14,18 @@
 </template>
 
 <script>
+import LightsTrack from './LightsTrack.vue';
 import Track from './Track.vue';
 
 export default {
   name: "Workspace",
   components:{
-    Track
+    Track,
+    LightsTrack
   },
   data(){
     return {
-      msg: '',
       bpm: 0,
-      color: '#000000',
       trackArray: [0]
     }
   },
@@ -38,19 +35,10 @@ export default {
       console.log('Send BPM');
       this.$socket.emit('newBPM',this.bpm);
     },
-    sendColor(){
-      this.$socket.emit('changeLights',this.color)
-    },
     disableTrack(){
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
       console.log('Src added in track');
     }
-  },
-  created() {
-    this.$options.sockets.eventToScreen = (data) => {
-      console.log(`Test subscribe: ${data}`);
-      this.msg = data;
-    };
   },
 };
 </script>
@@ -59,10 +47,6 @@ export default {
   .workspace-container{
     width: 100%;
     overflow: hidden;
-  }
-
-  .color-picker{
-    color: white;
   }
 
   .tracks{
