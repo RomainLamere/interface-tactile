@@ -7,7 +7,7 @@
 export default {
     data() {
         return {
-            pickedColor: '#000000'
+            pickedColor: '#ffffff'
         }
     },
     props:{

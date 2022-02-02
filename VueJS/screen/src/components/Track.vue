@@ -54,6 +54,8 @@ export default {
         };
         this.audioContext.decodeAudioData(audioBuffer, (decoded) =>{
           source.buffer = decoded;
+          // Duration of sound
+          // console.log(`duration : ${decoded.duration}`);
           source.connect(this.audioContext.destination);
           source.start(0);
         });
