@@ -35,7 +35,7 @@ public class RecordCirlce : MonoBehaviour
             record = true;
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(true);
-            Vector2 pos1 = this.GetComponent<RectTransform>().localPosition;
+            Vector2 pos1 = transform.parent.transform.parent.GetComponent<RectTransform>().localPosition;
             GameObject[] go = GameObject.FindGameObjectsWithTag("piano");
             myPiano = go[0];
             foreach (GameObject o in go)
@@ -48,7 +48,6 @@ public class RecordCirlce : MonoBehaviour
             StartRecord(myPiano);
         }
     }
-
     private void StartRecord(GameObject go)
     {
         go.GetComponent<RecordAudio>().Record();

@@ -5996,7 +5996,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4493597242017854346}
         m_TargetAssemblyTypeName: destroy, Assembly-CSharp
-        m_MethodName: DestroyOnClic
+        m_MethodName: DestroyInstrument
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 7054740471918873017}
@@ -6066,7 +6066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7054740471918873016}
   - component: {fileID: 1953787202974107193}
-  - component: {fileID: 3898960985173436966}
+  - component: {fileID: 2968363746454830446}
   m_Layer: 0
   m_Name: clavier piano
   m_TagString: piano
@@ -6108,7 +6108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c37c22961d994347a35e82b2f94bbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!81 &3898960985173436966
+--- !u!81 &2968363746454830446
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

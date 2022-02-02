@@ -37,6 +37,7 @@ public class RecordAudio : MonoBehaviour
             print("rec");
             if (recOutput == false)
             {
+                print("rec start");
                 StartWriting(fileName);
                 recOutput = true;
             }
