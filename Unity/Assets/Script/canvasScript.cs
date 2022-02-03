@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class canvasScript : MonoBehaviour
+public class canvasScript : MonoBehaviour, IPointerEnterHandler
 {
 
     private float time = 0;
@@ -11,6 +11,7 @@ public class canvasScript : MonoBehaviour
     public GameObject prefabMenu;
     private Vector2 clicPosition;
     public EventSystem eventSystem;
+    private PointerEventData myEventData;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class canvasScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (isClicked && time < 1)
         {
             time += Time.deltaTime;
@@ -35,14 +37,25 @@ public class canvasScript : MonoBehaviour
         }
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        myEventData = eventData;
+    }
+
     public void OnMouseDown()
     {
-        if (eventSystem.IsPointerOverGameObject() == false)
+        if (eventSystem.IsPointerOverGameObject() == false || myEventData.pointerCurrentRaycast.gameObject.name == "background")
         {
             clicPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); ;
             time = 0;
             isClicked = true;
         }
+        else
+        {
+            print(myEventData.pointerCurrentRaycast.gameObject.name);
+
+        }
+
     }
     public void OnMouseUp()
     {

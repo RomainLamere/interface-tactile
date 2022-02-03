@@ -13,10 +13,10 @@ using System.IO; // for FileStream
 public class WSCommunication : MonoBehaviour
 {
     public SocketIOUnity socket;
-    public Image frame;
+    public HandleColor frame;
     private void Start()
     {
-        var uri = new Uri("http://192.168.43.60:3000");
+        var uri = new Uri("http://localhost:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -27,6 +27,8 @@ public class WSCommunication : MonoBehaviour
         socket.JsonSerializer = new NewtonsoftJsonSerializer();
         print("connect");
         socket.Connect();
+
+        socket.On("newLights", ChangeFrameColor);
     }
     private void Update()
     {
@@ -36,12 +38,17 @@ public class WSCommunication : MonoBehaviour
             print("message envoyé");
         }
 
-        socket.On("newLights", ChangeFrameColor);
+        
     }
 
-    private void ChangeFrameColor(SocketIOResponse obj)
+    public void ChangeFrameColor(SocketIOResponse obj)
     {
-        print(obj.GetValue());
+        byte r = byte.Parse(obj.GetValue().ToString().Substring(1,2), System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(obj.GetValue().ToString().Substring(3,2), System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(obj.GetValue().ToString().Substring(5,2), System.Globalization.NumberStyles.HexNumber);
+        
+        print("new color :\nr = " + r + "/ g = " + g  + "/ b = " + b );
+        frame.ChangeColor(r, g, b, 255);
     }
 
     public void SendMessage(string message)
