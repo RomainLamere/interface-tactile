@@ -19,10 +19,14 @@
 </template>
 <script>
 import { Drop } from "vue-easy-dnd";
+import Vue from "vue";
 
 export default {
   components: {
     Drop,
+  },
+  props:{
+    bus: Vue
   },
   data() {
     return {
@@ -33,6 +37,11 @@ export default {
       soundPaused: true,
       firstPlay: true
     };
+  },
+  created() {
+    this.bus.$on('playTrack', () => {
+      this.soundControl();
+    });
   },
   methods: {
     trackDropped(e) {
@@ -75,7 +84,7 @@ export default {
         this.audioContext.resume().then(() => {
           this.soundPaused = false;
         });
-      } 
+      }
     },
     copyBuff(){
       let dst = new ArrayBuffer(this.recordAsArrayBuffer.byteLength);
