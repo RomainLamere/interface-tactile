@@ -11,9 +11,11 @@
       </template>
     </div>
     <div class="track">
+      <div v-bind:style="styleTrackSound" class="sound">
       <button @click="soundControl()" :disabled="!recordAsArrayBuffer">
         {{soundPaused? 'play': 'pause'}}
       </button>
+      </div>
     </div>
   </drop>
 </template>
@@ -35,7 +37,12 @@ export default {
       recordAsArrayBuffer: null,
       audioContext: new AudioContext(),
       soundPaused: true,
-      firstPlay: true
+      firstPlay: true,
+      styleTrackSound: {
+        height: "100%",
+        width: "100px",
+        background: "transparent"
+      }
     };
   },
   created() {
@@ -49,6 +56,10 @@ export default {
       this.trackZone = e.data.zone;
       this.instrument = e.data.instrument;
       this.recordAsArrayBuffer = e.data.record;
+      this.audioContext.decodeAudioData(this.copyBuff(), (decoded) =>{
+        this.styleTrackSound.width = decoded.duration*20+"px";
+        this.styleTrackSound.background="#6f87d6";
+      });
     },
     playSound(){
       if(this.recordAsArrayBuffer){
@@ -63,27 +74,26 @@ export default {
         };
         this.audioContext.decodeAudioData(audioBuffer, (decoded) =>{
           source.buffer = decoded;
-          // Duration of sound
-          // console.log(`duration : ${decoded.duration}`);
           source.connect(this.audioContext.destination);
           source.start(0);
         });
       }
     },
     soundControl(){
-      console.log(this.audioContext);
-      if(this.firstPlay){
-        this.playSound();
-        this.soundPaused = false;
-        this.firstPlay = false;
-      }else if(this.audioContext.state === 'running' && !this.soundPaused) {
-        this.audioContext.suspend().then(() => {
-          this.soundPaused = true;
-        });
-      } else if(this.audioContext.state === 'suspended' && this.soundPaused) {
-        this.audioContext.resume().then(() => {
+      if(this.recordAsArrayBuffer) {
+        if (this.firstPlay) {
+          this.playSound();
           this.soundPaused = false;
-        });
+          this.firstPlay = false;
+        } else if (this.audioContext.state === 'running' && !this.soundPaused) {
+          this.audioContext.suspend().then(() => {
+            this.soundPaused = true;
+          });
+        } else if (this.audioContext.state === 'suspended' && this.soundPaused) {
+          this.audioContext.resume().then(() => {
+            this.soundPaused = false;
+          });
+        }
       }
     },
     copyBuff(){
@@ -146,4 +156,5 @@ export default {
   border-radius: 4px;
   box-shadow: 2px 2px 3px #222222;
 }
+
 </style>

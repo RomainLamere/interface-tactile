@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa6b4444-c669-4ee4-bd63-ae5b1fc1790c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/screen/src/assets/icons/bouton-jouer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screen/src/assets/icons/bouton-pause.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NodeJS/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screen/src/components/Track.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Track.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen/src/components/Workspace.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Workspace.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +28,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Adaptation/Pokedopt/pokedopt/Web" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -59,7 +55,9 @@
       <workItem from="1642772620174" duration="5408000" />
       <workItem from="1642841095963" duration="1322000" />
       <workItem from="1642858491355" duration="62000" />
-      <workItem from="1643894640598" duration="7555000" />
+      <workItem from="1643894640598" duration="7825000" />
+      <workItem from="1643958824292" duration="407000" />
+      <workItem from="1643978760836" duration="5289000" />
     </task>
     <servers />
   </component>
