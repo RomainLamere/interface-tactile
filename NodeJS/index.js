@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
 
     socket.on("newBPM", (data) => {
       const start = Date.now() + 5000;
-      const objBPM = "{ 'bpm':'" + data + "', 'timestamp':'"+start+"'}";
+      const objBPM = JSON.stringify({ bpm: data, timestamp:start});
       log(`Change BPM : ${objBPM}`);
       io.emit('changeBPM', objBPM)
     });
@@ -67,13 +67,31 @@ io.on("connection", (socket) => {
 
     socket.on("sendRecordA", (data) => {
       // Uncomment the following lines to receive a file from Unity
-      // const buffer = Buffer.from(data.record);
-      // console.log(buffer);
-      // io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
+      const buffer = Buffer.from(data.record);
+      console.log(buffer);
+      io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
       
-      const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
-      console.log(fileData);
-      io.emit('addRecord', {zone: 'A', instrument: 'piano', record: fileData});
+      // const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
+      // console.log(fileData);
+      // io.emit('addRecord', {zone: 'A', instrument: 'piano', record: fileData});
+    })
+
+    socket.on("sendRecordB", (data) => {
+      const buffer = Buffer.from(data.record);
+      console.log(buffer);
+      io.emit('addRecord', {zone: 'B', instrument: data.instrument, record: buffer});
+    })
+
+    socket.on("sendRecordC", (data) => {
+      const buffer = Buffer.from(data.record);
+      console.log(buffer);
+      io.emit('addRecord', {zone: 'C', instrument: data.instrument, record: buffer});
+    })
+
+    socket.on("sendRecordD", (data) => {
+      const buffer = Buffer.from(data.record);
+      console.log(buffer);
+      io.emit('addRecord', {zone: 'D', instrument: data.instrument, record: buffer});
     })
 
     console.log(`Client connected - ${socket.id}`);
