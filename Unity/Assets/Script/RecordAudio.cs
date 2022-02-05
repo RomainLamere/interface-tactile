@@ -9,20 +9,25 @@ public class RecordAudio : MonoBehaviour
     private int bufferSize;
     private int numBuffers;
     private FileStream fileStream;
-    private string fileName = "recTest.wav";
+    private string fileName = "/recTest.wav";
     private int outputRate = 44100;
     private int headerSize = 44;
     private bool recOutput;
-    private string path = "Assets/Sounds";
+    //private string path = "Assets/Sounds";
     private bool record = false;
     private WSCommunication wSCommunication;
+    private String zone;
     // Start is called before the first frame update
     void Start()
     {
         AudioSettings.outputSampleRate = outputRate;
         wSCommunication = FindObjectOfType<WSCommunication>();
     }
-
+    public void SetZone(string zone)
+    {
+        print("my zone is " + zone);
+        this.zone = zone;
+    }
     // Update is called once per frame
     void Awake()
     {
@@ -52,7 +57,7 @@ public class RecordAudio : MonoBehaviour
     }
     public void SendRecord()
     {
-        wSCommunication.SendRecord(fileStream,"A");
+        wSCommunication.SendRecord(fileStream,zone);
     }
     public void Record()
     {
@@ -61,7 +66,8 @@ public class RecordAudio : MonoBehaviour
 
     public void StartWriting(string name)
     {
-        fileStream = new FileStream(path +"/"+ name, FileMode.Create);
+        print(Application.persistentDataPath);
+        fileStream = new FileStream(Application.persistentDataPath + name, FileMode.Create);
         //fileStream = File.Create(path);
         byte emptyByte = new byte();
 

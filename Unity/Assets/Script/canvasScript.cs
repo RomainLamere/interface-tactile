@@ -50,12 +50,6 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
             time = 0;
             isClicked = true;
         }
-        else
-        {
-            print(myEventData.pointerCurrentRaycast.gameObject.name);
-
-        }
-
     }
     public void OnMouseUp()
     {

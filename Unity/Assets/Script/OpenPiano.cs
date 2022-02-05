@@ -49,6 +49,7 @@ public class OpenPiano : MonoBehaviour
                 newPiano.GetComponent<RectTransform>().Rotate(0f, 0f, 0f);
             }
             newPiano.GetComponent<RectTransform>().localPosition = mySpot.GetComponent<RectTransform>().localPosition;
+            newPiano.GetComponent<RecordAudio>().SetZone(mySpot.name);
         }
     }
 }

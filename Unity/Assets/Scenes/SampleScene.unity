@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 156800389}
   - component: {fileID: 156800391}
   m_Layer: 5
-  m_Name: spotD
+  m_Name: D
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1358,7 +1358,7 @@ GameObject:
   - component: {fileID: 482056434}
   - component: {fileID: 482056436}
   m_Layer: 5
-  m_Name: spotC
+  m_Name: C
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3826,7 +3826,7 @@ GameObject:
   - component: {fileID: 1341662845}
   - component: {fileID: 1341662847}
   m_Layer: 5
-  m_Name: spotB
+  m_Name: B
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4943,7 +4943,7 @@ GameObject:
   - component: {fileID: 1785615823}
   - component: {fileID: 1785615825}
   m_Layer: 5
-  m_Name: spotA
+  m_Name: A
   m_TagString: spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

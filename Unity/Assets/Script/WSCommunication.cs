@@ -16,7 +16,7 @@ public class WSCommunication : MonoBehaviour
     public HandleColor frame;
     private void Start()
     {
-        var uri = new Uri("http://localhost:3000");
+        var uri = new Uri("http://Localhost:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -59,9 +59,9 @@ public class WSCommunication : MonoBehaviour
 
     public void SendRecord(FileStream file, string zone)
     {
-        print("Send Record");
+        
         string str = "sendRecord" + zone;
-
+        print(str);
         socket.Emit(str,new RecordObject("piano",File.ReadAllBytes(file.Name)));
     }
 
