@@ -13,7 +13,7 @@
       </div>
       <div class="tracks">
         <div class="tracksList">
-          <Track v-for="(n, index) in trackArray" :key="index" v-on:sourceadded="disableTrack()" :bus="bus"></Track>
+          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="disableTrack()" :busCol="busCol"></TrackLine>
         </div>
       </div>
     </div>
@@ -22,18 +22,18 @@
 
 <script>
 import LightsTrack from './LightsTrack.vue';
-import Track from './Track.vue';
 import Vue from "vue";
+import TrackLine from "./TrackLine";
 
 export default {
   name: "Workspace",
   components:{
-    Track,
+    TrackLine,
     LightsTrack
   },
   data(){
     return {
-      bus: new Vue(),
+      busCol: new Vue(),
       bpm: 0,
       trackArray: [0]
     }
@@ -46,10 +46,10 @@ export default {
     },
     disableTrack(){
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
-      console.log('Src added in track');
+      console.log('Src added in track col');
     },
     playTrack(){
-      this.bus.$emit('playTrack', {
+      this.busCol.$emit('playTrack', {
       });
     }
   },
@@ -87,7 +87,7 @@ export default {
     height: 75px;
     margin: 1em;
   }
-  
+
   #playButton:hover{
     cursor: pointer;
   }

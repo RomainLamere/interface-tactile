@@ -2,13 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa6b4444-c669-4ee4-bd63-ae5b1fc1790c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/screen/src/components/TrackLine.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screen/src/components/Track.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Track.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screen/src/components/Workspace.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Workspace.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -57,7 +66,8 @@
       <workItem from="1642858491355" duration="62000" />
       <workItem from="1643894640598" duration="7825000" />
       <workItem from="1643958824292" duration="407000" />
-      <workItem from="1643978760836" duration="5289000" />
+      <workItem from="1643978760836" duration="6807000" />
+      <workItem from="1643989252370" duration="2270000" />
     </task>
     <servers />
   </component>

@@ -107,8 +107,7 @@ export default {
 <style lang="css" scoped>
 .drop-zone {
   display: inline-flex;
-  min-width: 100%;
-  margin: 10px 0;
+  margin: 10px 40px;
 }
 
 .drop-in{
