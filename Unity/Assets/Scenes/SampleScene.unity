@@ -1520,7 +1520,6 @@ GameObject:
   - component: {fileID: 563151291}
   - component: {fileID: 563151290}
   - component: {fileID: 563151289}
-  - component: {fileID: 563151293}
   - component: {fileID: 563151294}
   m_Layer: 5
   m_Name: Canvas
@@ -1619,20 +1618,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &563151293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563151288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b75439b023299b845aa4a5533649526f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabMenu: {fileID: 2781461870430743082, guid: 4164165f201482440bdae776ba978fd4, type: 3}
-  eventSystem: {fileID: 0}
 --- !u!61 &563151294
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5390,6 +5375,7 @@ GameObject:
   - component: {fileID: 2103066979}
   - component: {fileID: 2103066981}
   - component: {fileID: 2103066980}
+  - component: {fileID: 2103066982}
   m_Layer: 0
   m_Name: background
   m_TagString: Untagged
@@ -5454,6 +5440,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2103066978}
   m_CullTransparentMesh: 1
+--- !u!114 &2103066982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103066978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75439b023299b845aa4a5533649526f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabMenu: {fileID: 2781461870430743082, guid: 4164165f201482440bdae776ba978fd4, type: 3}
+  eventSystem: {fileID: 1092699670}
 --- !u!1001 &5750155760829726220
 PrefabInstance:
   m_ObjectHideFlags: 0
