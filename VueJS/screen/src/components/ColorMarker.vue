@@ -12,7 +12,13 @@ export default {
     },
     props:{
         position: Number
-    }
+    },
+    watch: {
+        pickedColor: function(val){
+            this.pickedColor = val;
+            this.$emit('changedcolor',{position: this.position, color:this.pickedColor});
+        }
+    },
 }
 </script>
 <style lang="css" scoped>
