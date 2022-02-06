@@ -1,5 +1,5 @@
 <template>
-    <div class="color-marker" :style="`left: calc(${position}px - 3px); background-color: ${pickedColor}`">
+    <div class="color-marker" :style="`left: calc(${marker.position}px - 3px); background-color: ${pickedColor}`">
         <input type="color" class="color-picker" v-model="pickedColor">
     </div>
 </template>
@@ -11,13 +11,16 @@ export default {
         }
     },
     props:{
-        position: Number
+        marker: {position: Number, color: String}
     },
     watch: {
         pickedColor: function(val){
             this.pickedColor = val;
-            this.$emit('changedcolor',{position: this.position, color:this.pickedColor});
+            this.$emit('changedcolor',{position: this.marker.position, color:this.pickedColor});
         }
+    },
+    created() {
+        this.pickedColor = this.marker.color;
     },
 }
 </script>
