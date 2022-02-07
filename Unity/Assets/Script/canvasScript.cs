@@ -35,7 +35,7 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
             {
                 Debug.Log("touch began");
 
-                touches.Add(new touchLocation(t.fingerId, t.position));
+                touches.Add(new touchLocation(t.fingerId, t.position, myEventData.pointerCurrentRaycast.gameObject.name));
             }
             else if (t.phase == TouchPhase.Ended)
             {
@@ -49,7 +49,7 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
                 if (thisTouch != null)
                 {
                     thisTouch.UpdateTimer();
-                    if (thisTouch.timer > 1)
+                    if (thisTouch.timer > 1 && thisTouch.name == "background")
                     {
                         GameObject newMenu = Instantiate(prefabMenu, this.transform);
                         newMenu.GetComponent<RectTransform>().localPosition = getTouchPosition(thisTouch.position);

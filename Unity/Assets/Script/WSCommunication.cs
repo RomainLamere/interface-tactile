@@ -16,7 +16,7 @@ public class WSCommunication : MonoBehaviour
     public HandleColor frame;
     private void Start()
     {
-        var uri = new Uri("http://Localhost:3000");
+        var uri = new Uri("http://192.168.43.60:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
