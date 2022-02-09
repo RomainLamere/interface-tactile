@@ -1,17 +1,17 @@
 <template>
   <drop class="drop-zone" @drop="trackDropped">
-    <div :class="`instru ${trackZone}`">
-      <img
-        v-if="instrument !== ''"
-        :src="require(`@/assets/icons/${instrument}.png`)"
-        alt=""
-      />
-      <template v-else>
-        <div>select track<br>from table</div>
-      </template>
-    </div>
-    <div class="track">
-      <div v-bind:style="styleTrackSound" class="sound">
+<!--    <div :class="`instru ${trackZone}`">-->
+<!--      <img-->
+<!--        v-if="instrument !== ''"-->
+<!--        :src="require(`@/assets/icons/${instrument}.png`)"-->
+<!--        alt=""-->
+<!--      />-->
+<!--      <template v-else>-->
+<!--        <div>select track<br>from table</div>-->
+<!--      </template>-->
+<!--    </div>-->
+    <div class="track" >
+      <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
       <button @click="soundControl()" :disabled="!recordAsArrayBuffer">
         {{soundPaused? 'play': 'pause'}}
       </button>
@@ -28,6 +28,7 @@ export default {
     Drop,
   },
   props:{
+    index: Number,
     bus: Vue
   },
   data() {
@@ -42,13 +43,42 @@ export default {
         height: "100%",
         width: "100px",
         background: "transparent"
-      }
+      },
+      timeOutPlayBoolean : false,
+      timeOutPlay : null,
+      timeOutPlay2 : null,
+      timeOutPlayLineBoolean : false,
+      timeOutPlayLine : null,
     };
   },
   created() {
-    this.bus.$on('playTrack', () => {
-      this.soundControl();
+    this.bus.$on('playTrack', ($event) => {
+      if(this.timeOutPlayLineBoolean === true) {
+        clearTimeout(this.timeOutPlayLine);
+        clearTimeout(this.timeOutPlay);
+        clearTimeout(this.timeOutPlay2);
+        this.timeOutPlayLineBoolean = false;
+        if(this.timeOutPlayBoolean === true) {
+          this.soundControl();
+        }
+        this.timeOutPlayBoolean = false;
+      }else{
+        this.timeOutPlayLineBoolean = true
+        this.timeOutPlayLine = setTimeout(() => {
+          this.timeOutPlayLineBoolean = false;
+        }, $event[$event.length-1] * 1000);
+
+        this.timeOutPlay = setTimeout(() => {
+          this.timeOutPlayBoolean = true;
+          this.soundControl();
+        }, $event[this.index] * 1000);
+
+        this.timeOutPlay2 = setTimeout(() => {
+          this.timeOutPlayBoolean = false;
+        }, $event[this.index+1] * 1000);
+      }
     });
+
   },
   methods: {
     trackDropped(e) {
@@ -58,7 +88,8 @@ export default {
       this.recordAsArrayBuffer = e.data.record;
       this.audioContext.decodeAudioData(this.copyBuff(), (decoded) =>{
         this.styleTrackSound.width = decoded.duration*20+"px";
-        this.styleTrackSound.background="#6f87d6";
+        this.styleTrackSound.background="#cac5c4";
+        this.$emit("duration", decoded.duration);
       });
     },
     playSound(){
@@ -85,7 +116,13 @@ export default {
           this.playSound();
           this.soundPaused = false;
           this.firstPlay = false;
-        } else if (this.audioContext.state === 'running' && !this.soundPaused) {
+        } else{
+          this.audioContext.close().then(() => {
+            this.soundPaused = true;
+            this.firstPlay = true;
+          });
+          this.audioContext = new AudioContext();
+        }/*else if (this.audioContext.state === 'running' && !this.soundPaused) {
           this.audioContext.suspend().then(() => {
             this.soundPaused = true;
           });
@@ -93,7 +130,7 @@ export default {
           this.audioContext.resume().then(() => {
             this.soundPaused = false;
           });
-        }
+        }*/
       }
     },
     copyBuff(){
@@ -107,7 +144,6 @@ export default {
 <style lang="css" scoped>
 .drop-zone {
   display: inline-flex;
-  margin: 10px 40px;
 }
 
 .drop-in{

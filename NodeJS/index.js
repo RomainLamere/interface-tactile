@@ -71,9 +71,10 @@ io.on("connection", (socket) => {
       console.log(buffer);
       io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
       
-      // const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
-      // console.log(fileData);
-      // io.emit('addRecord', {zone: 'A', instrument: 'piano', record: fileData});
+       //const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
+       //const fileData = fs.readFileSync(__dirname + '/sounds/recTest.wav');
+       //console.log(fileData);
+       //io.emit('addRecord', {zone: 'B', instrument: 'piano', record: fileData});
     })
 
     socket.on("sendRecordB", (data) => {

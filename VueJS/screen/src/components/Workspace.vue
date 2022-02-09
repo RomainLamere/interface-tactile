@@ -13,7 +13,7 @@
       </div>
       <div class="tracks">
         <div class="tracksList">
-          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="disableTrack()" :busCol="busCol"></TrackLine>
+          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="disableTrack()"  :busCol="busCol" ></TrackLine>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@ export default {
     return {
       busCol: new Vue(),
       bpm: 0,
-      trackArray: [0]
+      trackArray: [0],
     }
   },
   sockets:{},
@@ -51,7 +51,7 @@ export default {
     playTrack(){
       this.busCol.$emit('playTrack', {
       });
-    }
+    },
   },
 };
 </script>
