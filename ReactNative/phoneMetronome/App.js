@@ -47,10 +47,10 @@ const App: () => Node = () => {
     const socket = socketIOClient('http://' + ENDPOINT + ':3000/');
     socket.on('changeBPM', data => {
       setResponse(JSON.stringify(data));
-      console.debug(data);
-      let eta_ms = data.timestamp - Date.now();
+      console.debug(JSON.parse(data).bpm);
+      let eta_ms = parseInt(JSON.parse(data).timestamp) - Date.now();
       setTimeout(() => {
-        setBpm(data.bpm);
+        setBpm(parseInt(JSON.parse(data).bpm));
       }, eta_ms);
     });
   }, [ENDPOINT]);
