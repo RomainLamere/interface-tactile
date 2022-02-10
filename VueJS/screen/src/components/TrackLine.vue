@@ -3,7 +3,7 @@
     <div class="playButton">
       <img id="playButton" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt=""/>
     </div>
-    <Track v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:sourceadded="disableTrack()" v-on:duration="addDuration($event)" :bus="bus"></Track>
+    <Track v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:sourceadded="soundRecordAdded()" v-on:duration="addDuration($event)" :bus="bus"></Track>
   </div>
 </template>
 
@@ -39,8 +39,9 @@ export default {
         this.trackCumulateDurationArray[i+1] = this.trackCumulateDurationArray[i]+this.trackDurationArray[i];
       }
     },
-    disableTrack(){
+    soundRecordAdded(){
       if(this.trackArray.length===1){
+        // Tell the workspace to add an empty line
         this.$emit("addLine");
       }
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
@@ -56,6 +57,12 @@ export default {
 <style scoped>
 .lineSound{
   display: flex;
+  height: 70px;
+  width: fit-content;
+  background-color: #444444;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px #222222;
+  margin-bottom: 0.5em;
 }
 
 #playButton{

@@ -87,6 +87,7 @@ export default {
         )
       ) {
         this.colorMarkers.push({ position: x, color: "#ffffff" });
+        console.log(x);
       }
     },
     markerColorChanged(event) {
@@ -100,14 +101,17 @@ export default {
       test.forEach((c) => {
         setTimeout(() => {
           this.$socket.emit("changeLights", c.color);
-        }, c.position * 10);
+        }, this.pxToSecond(c.position)*1000);
       });
     },
     loop(){
       this.bouleDisco();
       setTimeout(() => {
         this.loop();
-      }, [...this.colorMarkers].pop().position * 10);
+      }, this.pxToSecond([...this.colorMarkers].pop().position)*1000);
+    },
+    pxToSecond(px){
+      return px / 20;
     }
   },
 };

@@ -4,16 +4,16 @@
       <input type="number" v-model="bpm">
       <button @click="sendBPM()">Send new BPM</button>
     </div>
-    <div class="color-picker">
-      <LightsTrack></LightsTrack>
-    </div>
-    <div class="sound">
-      <div class="playButton">
-        <img id="playButton" src="@/assets/icons/bouton-jouer.png" @click="playTrack()" alt=""/>
+    <div class="studyo">
+      <div class="color-picker">
+        <LightsTrack></LightsTrack>
       </div>
-      <div class="tracks">
-        <div class="tracksList">
-          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="disableTrack()"  :busCol="busCol" ></TrackLine>
+      <div class="sound">
+        <div class="playButton">
+          <img id="playButton" src="@/assets/icons/bouton-jouer.png" @click="playTrack()" alt=""/>
+        </div>
+        <div class="tracks">
+          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="addEmptyLine()"  :busCol="busCol" ></TrackLine>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@ export default {
       console.log('Send BPM');
       this.$socket.emit('newBPM',this.bpm);
     },
-    disableTrack(){
+    addEmptyLine(){
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
       console.log('Src added in track col');
     },
@@ -64,11 +64,10 @@ export default {
 
   .tracks{
     min-height: 70%;
-    max-height: 95%;
+    max-height: 90%;
     background-color: #535353;
     padding: 1.5em 1em;
     overflow: scroll;
-    display: flex;
     width: 100%;
   }
 
@@ -102,6 +101,10 @@ export default {
 
   .tracksList{
     flex: 1 1 auto;
+  }
+
+  .studyo{
+    height: 100%;
   }
 
   .sound{

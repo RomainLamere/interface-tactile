@@ -1,5 +1,5 @@
 <template>
-  <drop class="drop-zone" @drop="trackDropped">
+  <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}">
 <!--    <div :class="`instru ${trackZone}`">-->
 <!--      <img-->
 <!--        v-if="instrument !== ''"-->
@@ -10,13 +10,11 @@
 <!--        <div>select track<br>from table</div>-->
 <!--      </template>-->
 <!--    </div>-->
-    <div class="track" >
       <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
       <button @click="soundControl()" :disabled="!recordAsArrayBuffer">
         {{soundPaused? 'play': 'pause'}}
       </button>
       </div>
-    </div>
   </drop>
 </template>
 <script>
@@ -41,7 +39,7 @@ export default {
       firstPlay: true,
       styleTrackSound: {
         height: "100%",
-        width: "100px",
+        width: "100%",
         background: "transparent"
       },
       timeOutPlayBoolean : false,
@@ -146,6 +144,11 @@ export default {
   display: inline-flex;
 }
 
+.empty{
+  flex: 1 1 auto;
+  min-width: 100px;
+}
+
 .drop-in{
     box-shadow: 2px 1px 15px #0095ff;
     box-shadow: 2px 1px 15px #0095ff;
@@ -185,8 +188,6 @@ export default {
 }
 
 .track {
-  min-width: 90%;
-  height: 70px;
   background-color: #444444;
   border-radius: 4px;
   box-shadow: 2px 2px 3px #222222;
