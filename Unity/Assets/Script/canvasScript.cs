@@ -25,8 +25,7 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
         int i = 0;
 
 
-            print("yo "+Input.touchCount);
-            print(myEventData.pointerCurrentRaycast.gameObject.name);
+            //print(myEventData.pointerCurrentRaycast.gameObject.name);
 
         while (i < Input.touchCount)
         {

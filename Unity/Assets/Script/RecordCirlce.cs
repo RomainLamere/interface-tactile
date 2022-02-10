@@ -6,10 +6,11 @@ public class RecordCirlce : MonoBehaviour
 {
     private bool record = false;
     private GameObject myPiano;
+    private RecordAudio recordAudio;
     // Start is called before the first frame update
     void Start()
     {
-        
+        recordAudio = FindObjectOfType<RecordAudio>();
     }
 
     // Update is called once per frame
@@ -45,17 +46,19 @@ public class RecordCirlce : MonoBehaviour
                     myPiano = o;
                 }
             }
+
             StartRecord(myPiano);
         }
     }
     private void StartRecord(GameObject go)
     {
-        go.GetComponent<RecordAudio>().Record();
+        recordAudio.SetZone(myPiano.GetComponent<HandlePiano>().spotName);
+        recordAudio.Record();
         go.transform.GetChild(1).gameObject.SetActive(true);
     }
     private void StopRecord(GameObject go)
     {
-        go.GetComponent<RecordAudio>().Record();
+        recordAudio.Record();
         go.transform.GetChild(1).gameObject.SetActive(false);
     }
 }
