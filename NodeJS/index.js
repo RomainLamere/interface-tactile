@@ -67,14 +67,15 @@ io.on("connection", (socket) => {
 
     socket.on("sendRecordA", (data) => {
       // Uncomment the following lines to receive a file from Unity
-      const buffer = Buffer.from(data.record);
-      console.log(buffer);
-      io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
+      //const buffer = Buffer.from(data.record);
+      //console.log(buffer);
+      //io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
       
        //const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
-       //const fileData = fs.readFileSync(__dirname + '/sounds/recTest.wav');
-       //console.log(fileData);
-       //io.emit('addRecord', {zone: 'B', instrument: 'piano', record: fileData});
+       const fileData = fs.readFileSync(__dirname + '/sounds/recTest.wav');
+       //const fileData = fs.readFileSync(__dirname + '/sounds/Guitare.wav');
+       console.log(fileData);
+       io.emit('addRecord', {zone: 'B', instrument: 'piano', record: fileData});
     })
 
     socket.on("sendRecordB", (data) => {

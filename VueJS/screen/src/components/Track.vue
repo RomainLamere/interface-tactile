@@ -50,6 +50,7 @@ export default {
     };
   },
   created() {
+    // check si on doit jouer ou stopper la track
     this.bus.$on('playTrack', ($event) => {
       if(this.timeOutPlayLineBoolean === true) {
         clearTimeout(this.timeOutPlayLine);
@@ -97,6 +98,7 @@ export default {
         source.onended = async () => {
           this.audioContext.close().then(() => {
             this.soundPaused = true;
+            this.$emit("finish", this.index)
             this.firstPlay = true;
           });
           this.audioContext = new AudioContext();
@@ -111,6 +113,7 @@ export default {
     soundControl(){
       if(this.recordAsArrayBuffer) {
         if (this.firstPlay) {
+          this.$emit("play", this.index);
           this.playSound();
           this.soundPaused = false;
           this.firstPlay = false;
@@ -118,6 +121,7 @@ export default {
           this.audioContext.close().then(() => {
             this.soundPaused = true;
             this.firstPlay = true;
+            this.$emit("finish", this.index)
           });
           this.audioContext = new AudioContext();
         }/*else if (this.audioContext.state === 'running' && !this.soundPaused) {

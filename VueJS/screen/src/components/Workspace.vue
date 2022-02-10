@@ -10,10 +10,13 @@
       </div>
       <div class="sound">
         <div class="playButton">
-          <img id="playButton" src="@/assets/icons/bouton-jouer.png" @click="playTrack()" alt=""/>
-        </div>
-        <div class="tracks">
-          <TrackLine v-for="(n, index) in trackArray" :key="index" v-on:addLine="addEmptyLine()"  :busCol="busCol" ></TrackLine>
+          <img v-if="!play" id="playButton" src="@/assets/icons/bouton-jouer.png" @click="checkIfCanPlayTrack()" alt=""/>
+            <img v-if="play" id="pauseButton" src="@/assets/icons/bouton-pause.png" @click="checkIfCanPlayTrack()" alt=""/>
+          </div>
+          <div class="tracks">
+            <div class="tracksList">
+              <TrackLine v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:addLine="addEmptyLine()" v-on:canPlay="playTrack($event)" v-on:lineIsStop="checkPlay($event)" v-on:lineIsStart="startButton($event)" :busCol="busCol" ></TrackLine>
+            </div>
         </div>
       </div>
     </div>
@@ -36,6 +39,10 @@ export default {
       busCol: new Vue(),
       bpm: 0,
       trackArray: [0],
+      nbEventReceived : 0,
+      arrayTrackEventFinishReceived : [],
+      canPlay : true,
+      play : false
     }
   },
   sockets:{},
@@ -46,13 +53,59 @@ export default {
     },
     addEmptyLine(){
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
+      this.arrayTrackEventFinishReceived.push(false);
       console.log('Src added in track col');
     },
-    playTrack(){
-      this.busCol.$emit('playTrack', {
+    checkIfCanPlayTrack(){
+      this.busCol.$emit('checkIfCanPlayTrack', {
       });
     },
+    playTrack($event){
+      this.nbEventReceived ++;
+      if($event === false){ // si seulement une track ne peut pas etre jouer alors on ne pourra pas lancer toutes les tracks ensembles
+        this.canPlay = false;
+      }
+      if(this.nbEventReceived === this.trackArray.length){
+        if(this.canPlay === true){ // on peut jouer parceque tout les tracks sont arretées
+          this.busCol.$emit('playTrack', {
+          });
+          this.play = true;
+        }else{
+          // on arrete tous le monde
+          this.busCol.$emit('stopTrack', {
+          });
+          this.play = false;
+        }
+        this.nbEventReceived=0;
+        this.canPlay = true;
+      }
+    },
+    checkPlay($event){
+      this.arrayTrackEventFinishReceived[$event] = true;
+      let pause = true;
+      for(let i = 0 ; i < this.arrayTrackEventFinishReceived.length-1 ; i++){
+        if(this.arrayTrackEventFinishReceived[i] === false){
+          pause = false;
+        }
+      }
+      if(pause) {
+        this.play = false;
+      }
+    },
+    startButton($event){
+      this.arrayTrackEventFinishReceived[$event] = false;
+      let pause = true;
+      for(let i = 0 ; i < this.arrayTrackEventFinishReceived.length-1 ; i++){
+        if(this.arrayTrackEventFinishReceived[i] === false){
+          pause = false;
+        }
+      }
+      if(pause) {
+        this.play = false;
+      }
+    }
   },
+
 };
 </script>
 
@@ -88,6 +141,15 @@ export default {
   }
 
   #playButton:hover{
+    cursor: pointer;
+  }
+
+  #pauseButton{
+    height: 75px;
+    margin: 1em;
+  }
+
+  #pauseButton:hover{
     cursor: pointer;
   }
 
