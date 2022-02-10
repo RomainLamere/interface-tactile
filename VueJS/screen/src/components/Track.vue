@@ -1,5 +1,5 @@
 <template>
-  <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}">
+  <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}" @dblclick="soundControl()">
 <!--    <div :class="`instru ${trackZone}`">-->
 <!--      <img-->
 <!--        v-if="instrument !== ''"-->
@@ -11,9 +11,10 @@
 <!--      </template>-->
 <!--    </div>-->
       <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
-      <button @click="soundControl()" :disabled="!recordAsArrayBuffer">
-        {{soundPaused? 'play': 'pause'}}
-      </button>
+        <img
+          v-if="instrument !== ''"
+          :src="require(`@/assets/icons/${instrument}.png`)"/>
+        <div class="line"></div>
       </div>
   </drop>
 </template>
@@ -40,7 +41,6 @@ export default {
       styleTrackSound: {
         height: "100%",
         width: "100%",
-        background: "transparent"
       },
       timeOutPlayBoolean : false,
       timeOutPlay : null,
@@ -87,7 +87,6 @@ export default {
       this.recordAsArrayBuffer = e.data.record;
       this.audioContext.decodeAudioData(this.copyBuff(), (decoded) =>{
         this.styleTrackSound.width = decoded.duration*20+"px";
-        this.styleTrackSound.background="#cac5c4";
         this.$emit("duration", decoded.duration);
       });
     },
@@ -146,6 +145,7 @@ export default {
 <style lang="css" scoped>
 .drop-zone {
   display: inline-flex;
+  margin-right: 1px;
 }
 
 .empty{
@@ -154,8 +154,8 @@ export default {
 }
 
 .drop-in{
-    box-shadow: 2px 1px 15px #0095ff;
-    box-shadow: 2px 1px 15px #0095ff;
+  box-shadow: 2px 1px 15px #0095ff;
+  box-shadow: 2px 1px 15px #0095ff;
 }
 
 .instru {
@@ -170,31 +170,46 @@ export default {
   box-shadow: 2px 2px 3px #222222;
 }
 
-.A{
-    border: 2px solid #d66f6f;
-}
-
-.B{
-    border: 2px solid #6fd674;
-}
-
-.C{
-    border: 2px solid #6f87d6;
-}
-
-.D{
-    border: 2px solid #d4d66f;
-}
-
 .instru img {
   width: 60px;
   height: 60px;
 }
 
-.track {
-  background-color: #444444;
-  border-radius: 4px;
-  box-shadow: 2px 2px 3px #222222;
+.sound .line{
+  width: 100%;
+  height: 10px;
+  margin: auto;
 }
 
+.A .line{
+  background-color: #d66f6f;
+}
+
+.B .line{
+  background-color: #6fd674;
+}
+
+.C .line{
+  background-color: #6f87d6;
+}
+
+.D .line{
+  background-color: #d4d66f;
+}
+
+.sound{
+  display: grid;
+}
+
+.sound .line, .sound img{
+  grid-area: 1 / 1;
+}
+
+.sound img{
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  object-fit: cover;
+  opacity: 0.1;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="lineSound">
     <div class="playButton">
-      <img v-if="!play" id="playButton" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt=""/>
-      <img v-if="play" id="pauseButton" src="@/assets/icons/bouton-pause.png" @click="stopTracks()" alt=""/>
+      <img v-if="!play" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt=""/>
+      <img v-else src="@/assets/icons/stop-button.png" @click="stopTracks()" alt=""/>
     </div>
     <Track v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:sourceadded="soundRecordAdded()" v-on:duration="addDuration($event)" v-on:play="isPlayed($event)" v-on:finish="isFinished($event)" :bus="bus"></Track>
   </div>
@@ -120,12 +120,11 @@ export default {
   height: 100%;
 }
 
-#pauseButton:hover{
+.playButton img{
   cursor: pointer;
-}
-
-#pauseButton{
   height: 50px;
   margin: 1em;
+
 }
+
 </style>

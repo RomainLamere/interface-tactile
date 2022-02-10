@@ -5,18 +5,18 @@
       <button @click="sendBPM()">Send new BPM</button>
     </div>
     <div class="studyo">
-      <div class="color-picker">
-        <LightsTrack></LightsTrack>
+      <div class="playButton">
+        <img v-if="!play" src="@/assets/icons/bouton-jouer.png" @click="checkIfCanPlayTrack()" alt=""/>
+        <img v-else src="@/assets/icons/stop-button.png" @click="checkIfCanPlayTrack()" alt=""/>
       </div>
-      <div class="sound">
-        <div class="playButton">
-          <img v-if="!play" id="playButton" src="@/assets/icons/bouton-jouer.png" @click="checkIfCanPlayTrack()" alt=""/>
-            <img v-if="play" id="pauseButton" src="@/assets/icons/bouton-pause.png" @click="checkIfCanPlayTrack()" alt=""/>
+      <div class="compose">
+        <div class="color-picker">
+          <LightsTrack></LightsTrack>
+        </div>
+        <div class="tracks">
+          <div class="tracksList">
+            <TrackLine v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:addLine="addEmptyLine()" v-on:canPlay="playTrack($event)" v-on:lineIsStop="checkPlay($event)" v-on:lineIsStart="startButton($event)" :busCol="busCol" ></TrackLine>
           </div>
-          <div class="tracks">
-            <div class="tracksList">
-              <TrackLine v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:addLine="addEmptyLine()" v-on:canPlay="playTrack($event)" v-on:lineIsStop="checkPlay($event)" v-on:lineIsStart="startButton($event)" :busCol="busCol" ></TrackLine>
-            </div>
         </div>
       </div>
     </div>
@@ -115,42 +115,10 @@ export default {
     overflow: hidden;
   }
 
-  .tracks{
-    min-height: 70%;
-    max-height: 90%;
-    background-color: #535353;
-    padding: 1.5em 1em;
-    overflow: scroll;
+  .studyo{
+    height: 100%;
     width: 100%;
-  }
-
-  .tracks::-webkit-scrollbar{
-    height: 10px;
-    width: 10px;
-  }
-
-  .tracks::-webkit-scrollbar-thumb{
-    background-color: #ffffff13;
-    border-radius: 10px;
-    height: 8px;
-  }
-
-  #playButton{
-    height: 75px;
-    margin: 1em;
-  }
-
-  #playButton:hover{
-    cursor: pointer;
-  }
-
-  #pauseButton{
-    height: 75px;
-    margin: 1em;
-  }
-
-  #pauseButton:hover{
-    cursor: pointer;
+    display: flex;
   }
 
   .playButton{
@@ -160,17 +128,43 @@ export default {
     justify-content: center;
     height: 100%;
   }
+  
+  .playButton img{
+    cursor: pointer;
+    height: 75px;
+    margin: 1em;
+  }
+
+  .compose{
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+  }
+
+  .compose ::-webkit-scrollbar{
+    height: 10px;
+    width: 10px;
+  }
+
+  .compose ::-webkit-scrollbar-thumb{
+    background-color: #ffffff1f;
+    border-radius: 10px;
+    height: 8px;
+  }
+
+  .color-picker{
+    padding-left: calc(50px + 3em);
+  }
+
+  .tracks{
+    min-height: calc(100% - 50px);
+    background-color: #535353;
+    padding: 1em;
+    overflow-y: scroll;
+  }
 
   .tracksList{
     flex: 1 1 auto;
-  }
-
-  .studyo{
-    height: 100%;
-  }
-
-  .sound{
-    display: flex;
-    height: 100%;
   }
 </style>
