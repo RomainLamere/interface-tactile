@@ -16,7 +16,7 @@ public class WSCommunication : MonoBehaviour
     public HandleColor frame;
     private void Start()
     {
-        var uri = new Uri("http://Localhost:3000");
+        var uri = new Uri("http://localhost:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -29,6 +29,7 @@ public class WSCommunication : MonoBehaviour
         socket.Connect();
 
         socket.On("newLights", ChangeFrameColor);
+        socket.On("newVoice", ReceiveSound);
     }
     private void Update()
     {
@@ -37,7 +38,10 @@ public class WSCommunication : MonoBehaviour
             socket.Emit("fromUnity", "wesh wesh");
             print("message envoyé");
         }
-
+        if(!socket.Connected)
+        {
+            socket.Connect();
+        }
         
     }
 
@@ -49,6 +53,11 @@ public class WSCommunication : MonoBehaviour
         
         print("new color :\nr = " + r + "/ g = " + g  + "/ b = " + b );
         frame.ChangeColor(r, g, b, 255);
+    }
+
+    public void ReceiveSound(SocketIOResponse obj)
+    {
+        print("sound receive is : " + obj.GetValue().ToString());
     }
 
     public void SendMessage(string message)

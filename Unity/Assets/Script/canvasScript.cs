@@ -48,13 +48,12 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
                 if (thisTouch != null)
                 {
                     thisTouch.UpdateTimer();
-                    if (thisTouch.timer > 1 && thisTouch.name == "background")
+                    if (thisTouch.timer > 1 && (thisTouch.name == "background" || thisTouch.name == "A"|| thisTouch.name == "B"|| thisTouch.name == "C"|| thisTouch.name == "D"))
                     {
                         GameObject newMenu = Instantiate(prefabMenu, this.transform);
                         newMenu.GetComponent<RectTransform>().localPosition = getTouchPosition(thisTouch.position);
                         newMenu.GetComponent<DragObject>().canvas = GetComponentInParent<Canvas>();
                         clicPosition = thisTouch.position;
-                        HandleMenuRotation(newMenu);
                         touches.RemoveAt(touches.IndexOf(thisTouch));
                     }
                 }
@@ -77,19 +76,5 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
     public void OnMouseDown()
     {
 
-    }
-
-    private void HandleMenuRotation(GameObject menu)
-    {
-        float cameraWidth = Camera.main.scaledPixelWidth;
-        float cameraHeight = Camera.main.scaledPixelHeight;
-        if(clicPosition.y > 540)
-        {
-            menu.GetComponent<RectTransform>().Rotate(0f, 0f, 180f);
-        }
-        else
-        {
-            menu.GetComponent<RectTransform>().Rotate(0f, 0f, 0f);
-        }
     }
 }
