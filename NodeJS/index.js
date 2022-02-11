@@ -65,6 +65,11 @@ io.on("connection", (socket) => {
       // lights.setLights(data);
     });
 
+    socket.on("voiceFromPhone",(data)=>{
+      log(`sound in base64 : ${data}`)
+      io.emit('NewVoice',data)
+    })
+
     socket.on("sendRecordA", (data) => {
       // Uncomment the following lines to receive a file from Unity
       const buffer = Buffer.from(data.record);

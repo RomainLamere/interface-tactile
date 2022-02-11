@@ -19,8 +19,10 @@ import {
   Vibration,
   Button,
   TextInput,
+  PermissionsAndroid,
 } from 'react-native';
 import socketIOClient from 'socket.io-client';
+import AudioRecord from 'react-native-audio-record';
 
 import {
   Colors,
@@ -33,6 +35,13 @@ import {
 const App: () => Node = () => {
   const [ENDPOINT, setEndpoint] = useState('192.168.43.60:3000');
   const isDarkMode = useColorScheme() === 'dark';
+  const options = {
+    sampleRate: 16000, // default 44100
+    channels: 1, // 1 or 2, default 1
+    bitsPerSample: 16, // 8 or 16, default 16
+    audioSource: 6, // android only (see below)
+    wavFile: 'test.wav', // default 'audio.wav'
+  };
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -42,9 +51,12 @@ const App: () => Node = () => {
   const vibrationDuration = 100;
   const [text, setText] = useState('');
   const [textAdd, setTextAdd] = useState('');
+  const [path, setPath] = useState('');
+  const [sound, setSound] = useState('');
+  const [socket, setSocket] = useState(socketIOClient(''));
 
   useEffect(() => {
-    const socket = socketIOClient('http://' + ENDPOINT + ':3000/');
+    setSocket(socketIOClient('http://' + ENDPOINT + ':3000/'));
     socket.on('changeBPM', data => {
       setResponse(JSON.stringify(data));
       console.debug(JSON.parse(data).bpm);
@@ -54,7 +66,12 @@ const App: () => Node = () => {
       }, eta_ms);
     });
   }, [ENDPOINT]);
-
+  useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      //PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    );
+  }, []);
   useEffect(() => {
     console.debug('in');
     if (bpm !== 0) {
@@ -65,7 +82,10 @@ const App: () => Node = () => {
       Vibration.vibrate(pattern, true);
     }
   }, [bpm]);
-
+  AudioRecord.on('data', data => {
+    //console.debug(data);
+    setSound(sound + data);
+  });
   return (
     <SafeAreaView style={backgroundStyle}>
       <Text style={{alignSelf: 'center', marginTop: 20}}>
@@ -90,6 +110,25 @@ const App: () => Node = () => {
         onEndEditing={() => setEndpoint(textAdd)}
       />
       <Text>Current address is : {ENDPOINT}</Text>
+      <Button
+        title={'record'}
+        onPress={() => {
+          AudioRecord.init(options);
+          AudioRecord.start();
+        }}
+      />
+      <Button
+        title={'stop'}
+        onPress={() => {
+          AudioRecord.stop().then(r => {
+            console.log(r);
+            console.log(sound);
+            socket.emit('voiceFromPhone', sound);
+            setSound('');
+          });
+        }}
+      />
+      <Text>{path}</Text>
     </SafeAreaView>
   );
 };
