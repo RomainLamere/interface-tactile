@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("newBPM", (data) => {
-      const start = Date.now() + 5000;
+      const start = Date.now() + 2000;
       const objBPM = JSON.stringify({ bpm: data, timestamp:start});
       log(`Change BPM : ${objBPM}`);
       io.emit('changeBPM', objBPM)
@@ -62,11 +62,12 @@ io.on("connection", (socket) => {
     socket.on("changeLights", (data) => {
       log(`Change Lights : ${data}`);
       io.emit('newLights', data);
-      // lights.setLights(data);
+      lights.setLights(data);
     });
 
     socket.on("voiceFromPhone",(data)=>{
-      log(`sound in base64 : ${data}`)
+      console.log(Buffer.from(data));
+      fs.writeFileSync(__dirname + '/sounds/testVoix.wav', Buffer.from(data));
       io.emit('NewVoice',data)
     })
 

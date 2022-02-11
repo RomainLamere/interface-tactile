@@ -52,12 +52,7 @@ export default {
       longestTrackLineWidth: '0'
     }
   },
-  sockets:{},
   methods:{
-    sendBPM(){
-      console.log('Send BPM');
-      this.$socket.emit('newBPM',this.bpm);
-    },
     addEmptyLine(){
       this.trackArray.push(this.trackArray[this.trackArray.length-1]+1);
       this.arrayTrackEventFinishReceived.push(false);

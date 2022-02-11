@@ -41,7 +41,7 @@ function setLight(light_id, hexRGB) {
     const state = new LightState()
     .on()
     .ct(500) // Temp between 153 (6500K) and 500 (2000K)
-    .brightness(5) // Brightness 0-100
+    .brightness(50) // Brightness 0-100
     .rgb(rgbJSON.r,rgbJSON.g, rgbJSON.b) // 0-255
     //.effect('none')// Cycle colors
     ;

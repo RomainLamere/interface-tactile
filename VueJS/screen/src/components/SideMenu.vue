@@ -1,5 +1,9 @@
 <template>
   <div class="side-menu-container">
+    <div class="metronome">
+      <input type="number" placeholder="Enter BPM value" v-model="bpm">
+      <button @click="sendBPM()">Send BPM</button>
+    </div>
     <the-table></the-table>
   </div>
 </template>
@@ -7,8 +11,20 @@
 <script>
 import TheTable from './TheTable.vue';
 export default {
+  name: 'SideMenu',
   components: { TheTable },
-  name: 'SideMenu'
+  data(){
+    return{
+      bpm: '0'
+    }
+  },
+  sockets:{},
+  methods:{
+    sendBPM(){
+      console.log('Send BPM');
+      this.$socket.emit('newBPM',this.bpm);
+    },
+  }
 };
 </script>
 
@@ -32,8 +48,7 @@ export default {
   height: 8px;
 }
 
-.menu img{
-    width: 50px;
-    height: 50px;
-}
+  .metronome input{
+    width: 100%;
+  }
 </style>
