@@ -1,21 +1,25 @@
 <template>
   <div class="workspace-container">
-    <div>
-      <input type="number" v-model="bpm">
-      <button @click="sendBPM()">Send new BPM</button>
-    </div>
     <div class="studyo">
       <div class="playButton">
         <img v-if="!play" src="@/assets/icons/bouton-jouer.png" @click="checkIfCanPlayTrack()" alt=""/>
         <img v-else src="@/assets/icons/stop-button.png" @click="checkIfCanPlayTrack()" alt=""/>
       </div>
       <div class="compose">
-        <div class="color-picker">
-          <LightsTrack></LightsTrack>
-        </div>
+        <Tracker :busCol="busCol"></Tracker>
+        <LightsTrack :busCol="busCol"></LightsTrack>
         <div class="tracks">
           <div class="tracksList">
-            <TrackLine v-for="(n, index) in trackArray" :key="index" v-bind:index="index" v-on:addLine="addEmptyLine()" v-on:canPlay="playTrack($event)" v-on:lineIsStop="checkPlay($event)" v-on:lineIsStart="startButton($event)" :busCol="busCol" ></TrackLine>
+            <TrackLine
+              v-for="(n, index) in trackArray"
+              :key="index" v-bind:index="index"
+              v-on:addLine="addEmptyLine()"
+              v-on:canPlay="playTrack($event)"
+              v-on:lineIsStop="checkPlay($event)"
+              v-on:lineIsStart="startButton($event)"
+              v-on:checkForNewWidth="sendTracksWidth($event)"
+              :busCol="busCol"
+              ></TrackLine>
           </div>
         </div>
       </div>
@@ -27,12 +31,14 @@
 import LightsTrack from './LightsTrack.vue';
 import Vue from "vue";
 import TrackLine from "./TrackLine";
+import Tracker from "./Tracker.vue"
 
 export default {
   name: "Workspace",
   components:{
     TrackLine,
-    LightsTrack
+    LightsTrack,
+    Tracker
   },
   data(){
     return {
@@ -42,7 +48,8 @@ export default {
       nbEventReceived : 0,
       arrayTrackEventFinishReceived : [],
       canPlay : true,
-      play : false
+      play : false,
+      longestTrackLineWidth: '0'
     }
   },
   sockets:{},
@@ -72,8 +79,8 @@ export default {
           this.play = true;
         }else{
           // on arrete tous le monde
-          this.busCol.$emit('stopTrack', {
-          });
+          this.busCol.$emit('stopTrack');
+          this.busCol.$emit('soundListeningEnded');
           this.play = false;
         }
         this.nbEventReceived=0;
@@ -103,6 +110,12 @@ export default {
       if(pause) {
         this.play = false;
       }
+    },
+    sendTracksWidth(width){
+      if(parseInt(width,10) > this.longestTrackLineWidth){
+        this.longestTrackLineWidth = parseFloat(width) + 16;
+        this.busCol.$emit('newWidth',this.longestTrackLineWidth);
+      }
     }
   },
 
@@ -121,6 +134,18 @@ export default {
     display: flex;
   }
 
+  .studyo ::-webkit-scrollbar{
+    height: 10px;
+    width: 10px;
+    background-color: #535353;
+  }
+
+  .studyo ::-webkit-scrollbar-thumb{
+    background-color: #ffffff1f;
+    border-radius: 10px;
+    height: 8px;
+  }
+
   .playButton{
     flex: 0 1 auto;
     display: flex;
@@ -136,31 +161,19 @@ export default {
   }
 
   .compose{
+    position: relative;
     flex: 1 1 100%;
     display: flex;
     flex-direction: column;
     overflow-x: scroll;
-  }
-
-  .compose ::-webkit-scrollbar{
-    height: 10px;
-    width: 10px;
-  }
-
-  .compose ::-webkit-scrollbar-thumb{
-    background-color: #ffffff1f;
-    border-radius: 10px;
-    height: 8px;
-  }
-
-  .color-picker{
-    padding-left: calc(50px + 3em);
+    background-color: #535353;
   }
 
   .tracks{
-    min-height: calc(100% - 50px);
-    background-color: #535353;
+    height: 100%;
+    width: max-content;
     padding: 1em;
+    overflow: visible;
     overflow-y: scroll;
   }
 

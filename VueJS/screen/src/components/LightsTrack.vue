@@ -1,27 +1,39 @@
 <template>
-  <div class="color-track" id="color-track" @click="clickEvent">
-    <input type="color" name="color" id="color" v-model="color" />
-    {{ color }}
-    <button @click="sendColor()">Send new color</button>
-    <button @click="bouleDisco()">Start color track</button>
-    <button @click="loop()">Start a loop with the color track</button>
-    <ColorMarker
-      v-for="colorMarker in colorMarkers"
-      :key="colorMarker.position"
-      :marker="colorMarker"
-      v-on:changedcolor="markerColorChanged"
-    ></ColorMarker>
+  <div class="lights-track" :style="`width: ${width}`" ref="lightsTrack">
+    <div class="playButton">
+      <img v-if="!colorsTimeouts.length" src="@/assets/icons/bouton-jouer.png" @click="bouleDisco()" alt=""/>
+      <img v-else src="@/assets/icons/stop-button.png" @click="stopBouleDisco()" alt=""/>
+    </div>
+    <div class="color-track" @click="clickEvent">
+      <!-- <input type="color" name="color" id="color" v-model="color" />
+      {{ color }} -->
+      <!-- <button @click="sendColor()">Send new color</button> -->
+      <!-- <button @click="bouleDisco()">Start color track</button> -->
+      <!-- <button @click="loop()">Start a loop with the color track</button> -->
+      <ColorMarker
+        v-for="colorMarker in colorMarkers"
+        :key="colorMarker.position"
+        :marker="colorMarker"
+        v-on:changedcolor="markerColorChanged"
+      ></ColorMarker>
+    </div>
   </div>
 </template>
 <script>
+import { Vue } from 'vue-property-decorator';
 import ColorMarker from "./ColorMarker.vue";
 export default {
   components: {
     ColorMarker,
   },
+  props:{
+    busCol: Vue
+  },
   data() {
     return {
+      width: '100%',
       color: "#000000",
+      colorsTimeouts: [],
       colorMarkers: [],
       //Preset rainbow
       // colorMarkers: [
@@ -70,6 +82,19 @@ export default {
       // ],
     };
   },
+  created(){
+    this.busCol.$on('playTrack', () =>{
+      this.bouleDisco();
+    });
+    this.busCol.$on('soundListeningEnded', () => {
+      this.stopBouleDisco();
+    });
+    this.busCol.$on('newWidth', (width) => {
+      if(parseFloat(window.getComputedStyle(this.$refs.lightsTrack).getPropertyValue('width').split('px')[0]) < width){
+        this.width = `${width}px`;
+      }
+    })
+  },
   sockets: {},
   methods: {
     sendColor() {
@@ -99,12 +124,20 @@ export default {
         (a, b) => a.position - b.position
       );
       test.forEach((c) => {
-        setTimeout(() => {
-          this.$socket.emit("changeLights", c.color);
-        }, this.pxToSecond(c.position)*1000);
+        this.colorsTimeouts.push(
+          setTimeout(() => {
+            this.$socket.emit("changeLights", c.color);
+          }, this.pxToSecond(c.position)*1000)
+        );
       });
     },
+    stopBouleDisco(){
+      this.colorsTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+      this.colorsTimeouts = [];
+      this.$socket.emit("changeLights", '#999')
+    },
     loop(){
+      this.colorsTimeouts = [];
       this.bouleDisco();
       setTimeout(() => {
         this.loop();
@@ -117,10 +150,31 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-.color-track {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  background-color: gray;
-}
+  .playButton{
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .playButton img{
+    cursor: pointer;
+    height: 50px;
+    margin: 1em;
+  }
+
+  .lights-track {
+    position: relative;
+    display: flex;
+    height: 70px;
+    padding-left: 1em;
+    background-color: gray;
+  }
+
+  .color-track{
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
 </style>

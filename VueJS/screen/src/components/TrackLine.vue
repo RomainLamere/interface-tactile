@@ -1,5 +1,5 @@
 <template>
-  <div class="lineSound">
+  <div class="lineSound" ref="lineSound">
     <div class="playButton">
       <img v-if="!play" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt=""/>
       <img v-else src="@/assets/icons/stop-button.png" @click="stopTracks()" alt=""/>
@@ -50,6 +50,9 @@ export default {
         this.trackCumulateDurationArray[i] = this.trackCumulateDurationArray[i-1]+this.trackDurationArray[i-1];
         this.trackCumulateDurationArray[i+1] = this.trackCumulateDurationArray[i]+this.trackDurationArray[i];
       }
+      setTimeout(() => {
+        this.$emit("checkForNewWidth",window.getComputedStyle(this.$refs.lineSound).getPropertyValue('width').split('px')[0]);
+      }, 200);
     },
     soundRecordAdded(){
       if(this.trackArray.length===1){
@@ -103,15 +106,6 @@ export default {
   margin-bottom: 0.5em;
 }
 
-#playButton{
-  height: 50px;
-  margin: 1em;
-}
-
-#playButton:hover{
-  cursor: pointer;
-}
-
 .playButton{
   flex: 0 1 auto;
   display: flex;
@@ -124,7 +118,6 @@ export default {
   cursor: pointer;
   height: 50px;
   margin: 1em;
-
 }
 
 </style>

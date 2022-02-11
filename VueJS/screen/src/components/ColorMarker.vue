@@ -29,7 +29,7 @@ export default {
         cursor: pointer;
         position: absolute;
         top: 0;
-        height: 50px;
+        height: 70px;
         width: 5px;
         background-color: white;
     }
