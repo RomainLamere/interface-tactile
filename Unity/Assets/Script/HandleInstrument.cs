@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandlePiano : MonoBehaviour
+public class HandleInstrument : MonoBehaviour
 {
     public string spotName;
     // Start is called before the first frame update
