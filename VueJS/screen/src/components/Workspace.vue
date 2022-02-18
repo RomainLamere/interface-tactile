@@ -7,9 +7,9 @@
       </div>
       <div class="compose">
         <Tracker :busCol="busCol"></Tracker>
-        <LightsTrack :busCol="busCol" lightId="1"></LightsTrack>
-        <LightsTrack :busCol="busCol" lightId="2"></LightsTrack>
-        <LightsTrack :busCol="busCol" lightId="3"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="1"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="2"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="3"></LightsTrack>
         <div class="tracks">
           <div class="tracksList">
             <TrackLine

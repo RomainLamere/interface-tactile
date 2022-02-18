@@ -3,8 +3,6 @@ const LightState = v3.lightStates.LightState;
 const { StringDecoder } = require('string_decoder'); // To decode string for JSON
 
 const USERNAME = '6b9DYoVL9IuxX72XToSFmR1JpUQCzj98DpbHHFXS'
-// The name of the light we wish to retrieve by name
-, LIGHT_ID = 3;
 
 function log(message){
   console.log(`SetLights | ${message}`);
