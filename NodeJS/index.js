@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
     socket.on("voiceFromPhone",(data)=>{
       console.log(Buffer.from(data));
       fs.writeFileSync(__dirname + '/sounds/testVoix.wav', Buffer.from(data));
-      io.emit('NewVoice',data)
+      io.emit('newVoice',data)
     })
 
     socket.on("sendRecordA", (data) => {
