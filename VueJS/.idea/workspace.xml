@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa6b4444-c669-4ee4-bd63-ae5b1fc1790c" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+=======
+>>>>>>> Stashed changes
+      <change afterPath="$PROJECT_DIR$/screen/src/components/Alert.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../NodeJS/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeJS/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen/src/components/Track.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Track.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screen/src/components/TrackLine.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/TrackLine.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screen/src/components/TheTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/TheTable.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screen/src/components/Workspace.vue" beforeDir="false" afterPath="$PROJECT_DIR$/screen/src/components/Workspace.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +77,13 @@
       <workItem from="1644237738148" duration="16000" />
       <workItem from="1644419029128" duration="15037000" />
       <workItem from="1644454626269" duration="30000" />
-      <workItem from="1644501773338" duration="10616000" />
+      <workItem from="1644501773338" duration="11584000" />
+      <workItem from="1644829458073" duration="26000" />
+<<<<<<< Updated upstream
+      <workItem from="1645188854065" duration="7458000" />
+=======
+      <workItem from="1645188854065" duration="6594000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

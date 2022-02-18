@@ -142,7 +142,7 @@ export default {
     justify-content: center;
     height: 100%;
   }
-  
+
   .playButton img{
     cursor: pointer;
     height: 75px;
@@ -169,4 +169,10 @@ export default {
   .tracksList{
     flex: 1 1 auto;
   }
+
+  .sound{
+    display: flex;
+    height: 100%;
+  }
+
 </style>

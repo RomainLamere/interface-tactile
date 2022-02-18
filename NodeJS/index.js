@@ -82,6 +82,7 @@ io.on("connection", (socket) => {
        const fileData = fs.readFileSync(__dirname + '/sounds/Guitare.wav');
        //console.log(fileData);
        io.emit('addRecord', {zone: 'B', instrument: 'guitar', record: fileData});
+
     })
 
     socket.on("sendRecordB", (data) => {
