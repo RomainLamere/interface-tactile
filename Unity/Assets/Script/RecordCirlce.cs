@@ -5,7 +5,7 @@ using UnityEngine;
 public class RecordCirlce : MonoBehaviour
 {
     private bool record = false;
-    private GameObject myPiano;
+    private GameObject myInstrument;
     private RecordAudio recordAudio;
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class RecordCirlce : MonoBehaviour
     {
         if (record)
         {
-            StopRecord(myPiano);
+            StopRecord(myInstrument);
             transform.GetChild(0).gameObject.SetActive(true);
             transform.GetChild(1).gameObject.SetActive(false);
             record = false;
@@ -37,22 +37,23 @@ public class RecordCirlce : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(true);
             Vector2 pos1 = transform.parent.transform.parent.GetComponent<RectTransform>().localPosition;
-            GameObject[] go = GameObject.FindGameObjectsWithTag("piano");
-            myPiano = go[0];
+            GameObject[] go = GameObject.FindGameObjectsWithTag("instrument");
+            myInstrument = go[0];
             foreach (GameObject o in go)
             {
-                if (Distance(pos1, o.GetComponent<RectTransform>().localPosition) < Distance(pos1, myPiano.GetComponent<RectTransform>().localPosition))
+                if (Distance(pos1, o.GetComponent<RectTransform>().localPosition) < Distance(pos1, myInstrument.GetComponent<RectTransform>().localPosition))
                 {
-                    myPiano = o;
+                    myInstrument = o;
                 }
             }
 
-            StartRecord(myPiano);
+            StartRecord(myInstrument);
         }
     }
     private void StartRecord(GameObject go)
     {
-        recordAudio.SetZone(myPiano.GetComponent<HandlePiano>().spotName);
+        recordAudio.SetZone(myInstrument.GetComponent<HandleInstrument>().spotName);
+        recordAudio.SetInstrument(myInstrument.GetComponent<HandleInstrument>().instrument);
         recordAudio.Record();
         go.transform.GetChild(1).gameObject.SetActive(true);
     }

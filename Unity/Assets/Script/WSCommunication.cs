@@ -16,7 +16,7 @@ public class WSCommunication : MonoBehaviour
     public HandleColor frame;
     private void Start()
     {
-        var uri = new Uri("http://Localhost:3000");
+        var uri = new Uri("http://localhost:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -27,8 +27,10 @@ public class WSCommunication : MonoBehaviour
         socket.JsonSerializer = new NewtonsoftJsonSerializer();
         print("connect");
         socket.Connect();
+        socket.Emit("fromUnity", "Unity connection");
 
         socket.On("newLights", ChangeFrameColor);
+        socket.On("newVoice", ReceiveSound);
     }
     private void Update()
     {
@@ -37,7 +39,11 @@ public class WSCommunication : MonoBehaviour
             socket.Emit("fromUnity", "wesh wesh");
             print("message envoyé");
         }
-
+        if(!socket.Connected)
+        {
+            socket.Connect();
+            socket.Emit("fromUnity", "Unity connection");
+        }
         
     }
 
@@ -51,19 +57,23 @@ public class WSCommunication : MonoBehaviour
         frame.ChangeColor(r, g, b, 255);
     }
 
+    public void ReceiveSound(SocketIOResponse obj)
+    {
+        print("sound receive is : " + obj.GetValue().ToString());
+    }
+
     public void SendMessage(string message)
     {
         socket.Emit("fromUnity", message);
         print(message);
     }
 
-    public void SendRecord(FileStream file, string zone)
+    public void SendRecord(FileStream file, string zone, string instrument)
     {
         
         string str = "sendRecord" + zone;
-        print(zone);
-        print(str);
-        socket.Emit(str,new RecordObject("piano",File.ReadAllBytes(file.Name)));
+        print(str + " instrument = " + instrument);
+        socket.Emit(str,new RecordObject(instrument,File.ReadAllBytes(file.Name)));
     }
 
 

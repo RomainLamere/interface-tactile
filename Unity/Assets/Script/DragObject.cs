@@ -11,6 +11,18 @@ public class DragObject : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         rectTransform = GetComponent<RectTransform>();
     }
+
+    void Update()
+    {
+        if (transform.position.y > 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 180);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+    }
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta/canvas.scaleFactor;

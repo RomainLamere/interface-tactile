@@ -7,6 +7,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
+import {readFile} from 'react-native-fs';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -23,7 +24,7 @@ import {
 } from 'react-native';
 import socketIOClient from 'socket.io-client';
 import AudioRecord from 'react-native-audio-record';
-
+import {Buffer} from 'buffer';
 import {
   Colors,
   DebugInstructions,
@@ -86,6 +87,10 @@ const App: () => Node = () => {
     //console.debug(data);
     setSound(sound + data);
   });
+  async function getUriToBase64(uri) {
+    const base64String = await readFile(uri, 'base64');
+    return base64String;
+  }
   return (
     <SafeAreaView style={backgroundStyle}>
       <Text style={{alignSelf: 'center', marginTop: 20}}>
@@ -122,9 +127,13 @@ const App: () => Node = () => {
         onPress={() => {
           AudioRecord.stop().then(r => {
             console.log(r);
-            console.log(sound);
-            socket.emit('voiceFromPhone', sound);
-            setSound('');
+            getUriToBase64(r).then(r2 => {
+              console.log(sound);
+              const chunk = Buffer.from(r2, 'base64');
+              //Uint8Array.from(atob(base64_string), c => c.charCodeAt(0))
+              socket.emit('voiceFromPhone', chunk);
+              setSound('');
+            });
           });
         }}
       />
