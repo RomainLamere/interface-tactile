@@ -17,7 +17,6 @@
               v-on:canPlay="playTrack($event)"
               v-on:lineIsStop="checkPlay($event)"
               v-on:lineIsStart="startButton($event)"
-              v-on:checkForNewWidth="sendTracksWidth($event)"
               :busCol="busCol"
               ></TrackLine>
           </div>
@@ -49,7 +48,6 @@ export default {
       arrayTrackEventFinishReceived : [],
       canPlay : true,
       play : false,
-      longestTrackLineWidth: '0'
     }
   },
   methods:{
@@ -104,12 +102,6 @@ export default {
       }
       if(pause) {
         this.play = false;
-      }
-    },
-    sendTracksWidth(width){
-      if(parseInt(width,10) > this.longestTrackLineWidth){
-        this.longestTrackLineWidth = parseFloat(width) + 16;
-        this.busCol.$emit('newWidth',this.longestTrackLineWidth);
       }
     }
   },

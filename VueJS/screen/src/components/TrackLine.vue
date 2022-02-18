@@ -51,7 +51,7 @@ export default {
         this.trackCumulateDurationArray[i+1] = this.trackCumulateDurationArray[i]+this.trackDurationArray[i];
       }
       setTimeout(() => {
-        this.$emit("checkForNewWidth",window.getComputedStyle(this.$refs.lineSound).getPropertyValue('width').split('px')[0]);
+        this.$store.commit('setMaxTrackWidth',parseFloat(window.getComputedStyle(this.$refs.lineSound).getPropertyValue('width').split('px')[0])+16);
       }, 200);
     },
     soundRecordAdded(){

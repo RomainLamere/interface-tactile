@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       width: '100%',
+      unwatch: null,
       color: "#000000",
       colorsTimeouts: [],
       colorMarkers: [],
@@ -89,11 +90,18 @@ export default {
     this.busCol.$on('soundListeningEnded', () => {
       this.stopBouleDisco();
     });
-    this.busCol.$on('newWidth', (width) => {
-      if(parseFloat(window.getComputedStyle(this.$refs.lightsTrack).getPropertyValue('width').split('px')[0]) < width){
-        this.width = `${width}px`;
+    this.unwatch = this.$store.watch(
+      (getters) => getters.maxTrackWidth,
+      (newVal) => {
+        console.log('LA LARGEUR A CHANGE HE OH LA HEEEEIN', newVal)
+        const width = parseFloat(window.getComputedStyle(this.$refs.lightsTrack).getPropertyValue('width').split('px')[0]);
+        console.log('WIDTH DE LA TRACKLINE',width);
+        if(Math.round(width) < newVal){
+          console.log('>>>>>>>>>>>>>>>>>');
+          this.width = `${newVal}px`;
+        }
       }
-    })
+    );
   },
   sockets: {},
   methods: {
@@ -146,7 +154,7 @@ export default {
     pxToSecond(px){
       return px / 20;
     }
-  },
+  }
 };
 </script>
 <style lang="css" scoped>
