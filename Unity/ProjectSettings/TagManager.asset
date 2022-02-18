@@ -6,6 +6,7 @@ TagManager:
   tags:
   - spot
   - instrument
+  - menu
   layers:
   - Default
   - TransparentFX

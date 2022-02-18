@@ -48,7 +48,7 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
                 if (thisTouch != null)
                 {
                     thisTouch.UpdateTimer();
-                    if (thisTouch.timer > 1 && (thisTouch.name == "background" || thisTouch.name == "A"|| thisTouch.name == "B"|| thisTouch.name == "C"|| thisTouch.name == "D"))
+                    if (thisTouch.timer > 1 && (thisTouch.name == "background" || thisTouch.name == "A"|| thisTouch.name == "B"|| thisTouch.name == "C"|| thisTouch.name == "D") && GameObject.FindGameObjectsWithTag("menu").Length <4)
                     {
                         GameObject newMenu = Instantiate(prefabMenu, this.transform);
                         newMenu.GetComponent<RectTransform>().localPosition = getTouchPosition(thisTouch.position);

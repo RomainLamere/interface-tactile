@@ -14,9 +14,10 @@ public class WSCommunication : MonoBehaviour
 {
     public SocketIOUnity socket;
     public HandleColor frame;
+    public HandlePadSounds handlePadSounds;
     private void Start()
     {
-        var uri = new Uri("http://localhost:3000");
+        var uri = new Uri("http://192.168.1.13:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -49,9 +50,10 @@ public class WSCommunication : MonoBehaviour
 
     public void ChangeFrameColor(SocketIOResponse obj)
     {
-        byte r = byte.Parse(obj.GetValue().ToString().Substring(1,2), System.Globalization.NumberStyles.HexNumber);
-        byte g = byte.Parse(obj.GetValue().ToString().Substring(3,2), System.Globalization.NumberStyles.HexNumber);
-        byte b = byte.Parse(obj.GetValue().ToString().Substring(5,2), System.Globalization.NumberStyles.HexNumber);
+        print(obj);
+        byte r = byte.Parse(obj.GetValue().ToString().Substring(11,2), System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(obj.GetValue().ToString().Substring(13,2), System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(obj.GetValue().ToString().Substring(15,2), System.Globalization.NumberStyles.HexNumber);
         
         print("new color :\nr = " + r + "/ g = " + g  + "/ b = " + b );
         frame.ChangeColor(r, g, b, 255);
@@ -60,6 +62,8 @@ public class WSCommunication : MonoBehaviour
     public void ReceiveSound(SocketIOResponse obj)
     {
         print("sound receive is : " + obj.GetValue().ToString());
+        print("sound receive is : " + obj.InComingBytes[0]);
+        handlePadSounds.AddSound(obj.InComingBytes[0]);
     }
 
     public void SendMessage(string message)

@@ -36,6 +36,19 @@ public class OpenInstrument : MonoBehaviour
                 mySpot = o;
             }
         }
+        if (!mySpot.GetComponent<Spot>().free)
+        {
+            GameObject[] instruments = GameObject.FindGameObjectsWithTag("instrument");
+            foreach(GameObject instrument in instruments)
+            {
+                if (Distance(instrument.transform.position, mySpot.transform.position) < 1)
+                {
+                    Destroy(instrument);
+                    mySpot.GetComponent<Spot>().FreeSpot();
+                    break;
+                }
+            }
+        }
         if (mySpot.GetComponent<Spot>().free)
         {
             mySpot.GetComponent<Spot>().TakeSpot();
@@ -50,7 +63,6 @@ public class OpenInstrument : MonoBehaviour
             }
             newInstrument.GetComponent<RectTransform>().localPosition = mySpot.GetComponent<RectTransform>().localPosition;
             newInstrument.GetComponent<HandleInstrument>().spotName = mySpot.name;
-            //newDrum.GetComponent<HandleDrum>().spotName = mySpot.name;
         }
     }
 }
