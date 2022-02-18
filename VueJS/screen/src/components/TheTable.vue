@@ -1,13 +1,14 @@
 <template>
     <div class="main-container">
+      <Alert id="alert" :zone="alertZone"></Alert>
         <div class="table-container">
-            <input type="radio" name="zone" id="a" value="A" @click="showInstruments($event)">
+            <input type="radio" name="zone" id="a" value="A" @click="showInstruments($event)"/>
             <label for="a" class="zone a"></label>
-            <input type="radio" name="zone" id="b" value="B" @click="showInstruments($event)">
+            <input type="radio" name="zone" id="b" value="B" @click="showInstruments($event)"/>
             <label for="b" class="zone b"></label>
-            <input type="radio" name="zone" id="c" value="C" @click="showInstruments($event)">
+            <input type="radio" name="zone" id="c" value="C" @click="showInstruments($event)"/>
             <label for="c" class="zone c"></label>
-            <input type="radio" name="zone" id="d" value="D" @click="showInstruments($event)">
+            <input type="radio" name="zone" id="d" value="D" @click="showInstruments($event)"/>
             <label for="d" class="zone d"></label>
         </div>
         <div v-if="selectedZone === 'A'" class="instru-list">
@@ -34,19 +35,21 @@
 </template>
 <script>
 import { Drag } from 'vue-easy-dnd';
+import Alert from "./Alert";
 
 export default {
     components:{
+      Alert,
         Drag
     },
     data(){
         return{
-            blobUrl: '',
             selectedZone: '',
             recordsA:[],
             recordsB:[],
             recordsC:[],
             recordsD:[],
+            alertZone: 'no zone'
         }
     },
     sockets:{},
@@ -54,35 +57,43 @@ export default {
         showInstruments(event){
             if(this.selectedZone != event.target.value){
                 if(event.target.checked){
-                    this.selectedZone = event.target.value; 
+                    this.selectedZone = event.target.value;
                 }
             }else{
                 this.selectedZone = '';
             }
             console.log(this.selectedZone);
-        }
+        },
+      displayAlert(zone){
+          this.alertZone = zone;
+         document.getElementById("alert").style.visibility = "visible";
+          setTimeout(()=>{
+            document.getElementById("alert").style.visibility = "hidden";
+          },5000)
+      }
     },
     created(){
         this.$options.sockets.addRecord = (data) => {
             switch(data.zone){
                 case 'A':
                     this.recordsA.push(data);
+                  this.displayAlert('rouge');
                     break;
                 case 'B':
                     this.recordsB.push(data);
+                    this.displayAlert('verte');
                     break;
                 case 'C':
                     this.recordsC.push(data);
+                  this.displayAlert('bleue');
                     break;
                 case 'D':
                     this.recordsD.push(data);
+                  this.displayAlert('jaune');
                     break;
-            }       
+            }
         }
-    },
-    beforeDestroy() {
-        URL.revokeObjectURL(this.blobUrl)
-    },
+    }
 }
 </script>
 <style lang="css" scoped>
@@ -127,7 +138,6 @@ export default {
         font-size: 2em;
         font-family: sans-serif;
         font-weight: bold;
-        opacity: 0.1;
     }
 
     .a{
@@ -136,8 +146,8 @@ export default {
     }
 
     .a::before{
-        content: "A";
-        /* color: red; */
+        content: "!";
+        color: white;
     }
 
     .b{
@@ -146,8 +156,8 @@ export default {
     }
 
     .b::before{
-        content: "B";
-        /* color: green; */
+      content: "!";
+      color: white;
     }
 
     .c{
@@ -156,8 +166,8 @@ export default {
     }
 
     .c::before{
-        content: "C";
-        /* color: #0031d3; */
+      content: "!";
+      color: white;
     }
 
     .d{
@@ -166,8 +176,8 @@ export default {
     }
 
     .d::before{
-        content: "D";
-        /* color: yellow; */
+      content: "!";
+      color: white;
     }
 
     input[type=radio]:checked + label{
@@ -191,9 +201,12 @@ export default {
         justify-content: center;
     }
 
-    .instru img{        
+    .instru img{
         width: 70px;
         height: 70px;
     }
 
+    #alert{
+      visibility: hidden;
+    }
 </style>

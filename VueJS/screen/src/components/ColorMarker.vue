@@ -1,6 +1,6 @@
 <template>
     <div class="color-marker" :style="`left: calc(${marker.position}px - 3px); background-color: ${pickedColor}`">
-        <input type="color" class="color-picker" v-model="pickedColor">
+        <input type="color" class="color-picker" v-model="pickedColor" ref="input">
     </div>
 </template>
 <script>
@@ -22,6 +22,9 @@ export default {
     created() {
         this.pickedColor = this.marker.color;
     },
+    mounted(){
+        this.$refs.input.click();
+    }
 }
 </script>
 <style lang="css" scoped>

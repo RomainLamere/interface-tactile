@@ -9,7 +9,6 @@ export default {
   data() {
     return {
         animationIntervalId: null,
-        widthFromLeft: '0'
     };
   },
   props: {
@@ -24,13 +23,15 @@ export default {
         this.$refs.tracker.style.left = 'calc(50px + 3em - 3px)';
         clearInterval(this.animationIntervalId);
     });
-    this.busCol.$on("newWidth", (width)=>{
-        this.widthFromLeft = width - (50 + 3*16 - 3);
-    })
+  },
+  computed:{
+    widthFromLeft(){
+      return (this.$store.getters.maxTrackWidth - (50 + 3*16 -3));
+    }
   },
   methods: {
       animate(){
-          if(parseInt(window.getComputedStyle(this.$refs.tracker).getPropertyValue('left').split('px')[0],10) >= this.widthFromLeft){
+          if(parseFloat(window.getComputedStyle(this.$refs.tracker).getPropertyValue('left').split('px')[0],10) >= this.widthFromLeft){
               clearInterval(this.animationIntervalId);
               this.$refs.tracker.style.left = 'calc(50px + 3em - 3px)';
           }else{

@@ -3,8 +3,6 @@ const LightState = v3.lightStates.LightState;
 const { StringDecoder } = require('string_decoder'); // To decode string for JSON
 
 const USERNAME = '6b9DYoVL9IuxX72XToSFmR1JpUQCzj98DpbHHFXS'
-// The name of the light we wish to retrieve by name
-, LIGHT_ID = 3;
 
 function log(message){
   console.log(`SetLights | ${message}`);
@@ -21,12 +19,10 @@ function hexToRgb(hex) {
   return null;
 }
 
-function setLights(rgbTxt) {
-	var hexRGB = hexToRgb(rgbTxt);
+function setLights(obj) {
+	var hexRGB = hexToRgb(obj.color);
 	log(`Set Lights : ${hexRGB}`);
-	setLight(1, hexRGB);
-	setLight(2, hexRGB);
-	setLight(3, hexRGB);
+	setLight(obj.id, hexRGB);
 };
 
 function setLight(light_id, hexRGB) {

@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
     socket.on("voiceFromPhone",(data)=>{
       console.log(Buffer.from(data));
       fs.writeFileSync(__dirname + '/sounds/testVoix.wav', Buffer.from(data));
-      io.emit('NewVoice',data)
+      io.emit('newVoice',data);
     })
 
     socket.on("sendRecordA", (data) => {
@@ -77,11 +77,12 @@ io.on("connection", (socket) => {
       console.log(buffer);
       io.emit('addRecord', {zone: 'A', instrument: data.instrument, record: buffer});
       
-       //const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
+      //  const fileData = fs.readFileSync(__dirname + '/sounds/Ulysse31-Oscillian-Remix.wav');
        //const fileData = fs.readFileSync(__dirname + '/sounds/recTest.wav');
-       //const fileData = fs.readFileSync(__dirname + '/sounds/Guitare.wav');
+      //  const fileData = fs.readFileSync(__dirname + '/sounds/Guitare.wav');
        //console.log(fileData);
-       //io.emit('addRecord', {zone: 'B', instrument: 'piano', record: fileData});
+       io.emit('addRecord', {zone: 'B', instrument: 'guitar', record: fileData});
+
     })
 
     socket.on("sendRecordB", (data) => {

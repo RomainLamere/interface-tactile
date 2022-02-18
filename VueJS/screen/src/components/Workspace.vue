@@ -7,7 +7,9 @@
       </div>
       <div class="compose">
         <Tracker :busCol="busCol"></Tracker>
-        <LightsTrack :busCol="busCol"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="1"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="2"></LightsTrack>
+        <LightsTrack :busCol="busCol" :lightId="3"></LightsTrack>
         <div class="tracks">
           <div class="tracksList">
             <TrackLine
@@ -17,7 +19,6 @@
               v-on:canPlay="playTrack($event)"
               v-on:lineIsStop="checkPlay($event)"
               v-on:lineIsStart="startButton($event)"
-              v-on:checkForNewWidth="sendTracksWidth($event)"
               :busCol="busCol"
               ></TrackLine>
           </div>
@@ -49,7 +50,6 @@ export default {
       arrayTrackEventFinishReceived : [],
       canPlay : true,
       play : false,
-      longestTrackLineWidth: '0'
     }
   },
   methods:{
@@ -105,12 +105,6 @@ export default {
       if(pause) {
         this.play = false;
       }
-    },
-    sendTracksWidth(width){
-      if(parseInt(width,10) > this.longestTrackLineWidth){
-        this.longestTrackLineWidth = parseFloat(width) + 16;
-        this.busCol.$emit('newWidth',this.longestTrackLineWidth);
-      }
     }
   },
 
@@ -148,7 +142,7 @@ export default {
     justify-content: center;
     height: 100%;
   }
-  
+
   .playButton img{
     cursor: pointer;
     height: 75px;
@@ -175,4 +169,10 @@ export default {
   .tracksList{
     flex: 1 1 auto;
   }
+
+  .sound{
+    display: flex;
+    height: 100%;
+  }
+
 </style>
