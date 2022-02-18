@@ -30,7 +30,6 @@ public class PlayTheDrum : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        print("yo yo yo");
         audioSource.Play();
         this.transform.localScale = scale * 1.2f;
         wSCommunication.SendMessage(this.name);

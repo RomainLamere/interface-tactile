@@ -21,7 +21,7 @@ public class OpenInstrument : MonoBehaviour
     {
         return Mathf.Sqrt(Mathf.Pow(pos1.x - pos2.x, 2) + Mathf.Pow(pos1.y - pos2.y, 2));
     }
-    public void OpenTheDrum()
+    public void OpenTheInstrument()
     {
 
         GameObject[] go = GameObject.FindGameObjectsWithTag("spot");
@@ -49,6 +49,7 @@ public class OpenInstrument : MonoBehaviour
                 newInstrument.GetComponent<RectTransform>().Rotate(0f, 0f, 0f);
             }
             newInstrument.GetComponent<RectTransform>().localPosition = mySpot.GetComponent<RectTransform>().localPosition;
+            newInstrument.GetComponent<HandleInstrument>().spotName = mySpot.name;
             //newDrum.GetComponent<HandleDrum>().spotName = mySpot.name;
         }
     }

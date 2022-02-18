@@ -574,7 +574,7 @@ MonoBehaviour:
         m_MethodName: DestroyInstrument
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2995162122962112393}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1185,6 +1185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spotName: 
+  instrument: drum
 --- !u!1 &3295413595886493843
 GameObject:
   m_ObjectHideFlags: 0

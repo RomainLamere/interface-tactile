@@ -16,7 +16,8 @@ public class RecordAudio : MonoBehaviour
     //private string path = "Assets/Sounds";
     private bool record = false;
     private WSCommunication wSCommunication;
-    private String zone;
+    private string zone;
+    private string instrument;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,12 @@ public class RecordAudio : MonoBehaviour
     {
         print("my zone is " + zone);
         this.zone = zone;
+    }
+    
+    public void SetInstrument(string instrument)
+    {
+        print("my instrument is " + instrument);
+        this.instrument = instrument;
     }
     // Update is called once per frame
     void Awake()
@@ -57,7 +64,7 @@ public class RecordAudio : MonoBehaviour
     }
     public void SendRecord()
     {
-        wSCommunication.SendRecord(fileStream,zone);
+        wSCommunication.SendRecord(fileStream,zone,instrument);
     }
     public void Record()
     {

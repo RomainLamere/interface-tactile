@@ -1074,7 +1074,7 @@ GameObject:
   - component: {fileID: 6620240699319767243}
   - component: {fileID: 324526311509066621}
   m_Layer: 0
-  m_Name: Pad
+  m_Name: pad
   m_TagString: instrument
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1130,6 +1130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spotName: 
+  instrument: pad
 --- !u!1 &6717419134781890787
 GameObject:
   m_ObjectHideFlags: 0

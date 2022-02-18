@@ -18,10 +18,7 @@ public class destroy : MonoBehaviour
 
     public void DestroyOnClic(GameObject go)
     {
-
         Destroy(go);
-
-
     }
 
     public void DestroyInstrument(GameObject go)

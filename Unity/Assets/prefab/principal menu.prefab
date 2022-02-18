@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4662044593863958837
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1144,7 +1144,7 @@ GameObject:
   - component: {fileID: 2793197382736935451}
   - component: {fileID: 5556301673403961051}
   - component: {fileID: 5307998800017273541}
-  - component: {fileID: 1129051890205405817}
+  - component: {fileID: 3381705358664400263}
   m_Layer: 0
   m_Name: piano Circle
   m_TagString: Untagged
@@ -1216,9 +1216,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1129051890205405817}
-        m_TargetAssemblyTypeName: OpenPiano, Assembly-CSharp
-        m_MethodName: OpenThePiano
+      - m_Target: {fileID: 3381705358664400263}
+        m_TargetAssemblyTypeName: OpenInstrument, Assembly-CSharp
+        m_MethodName: OpenTheInstrument
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1266,7 +1266,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1129051890205405817
+--- !u!114 &3381705358664400263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1275,10 +1275,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3636710189887031650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d52c235a9565387488224a93dc1b0ba2, type: 3}
+  m_Script: {fileID: 11500000, guid: 680ff7f0e8619d646b55cb01f690388e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pianoPrefab: {fileID: 7054740471918873017, guid: 88aaa3527821e6a4ebe740c0de3f1a08, type: 3}
+  instrumentPrefab: {fileID: 7054740471918873017, guid: 88aaa3527821e6a4ebe740c0de3f1a08, type: 3}
   parent: {fileID: 2781461870430743082}
 --- !u!1 &3861983270429202062
 GameObject:
@@ -1669,7 +1669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4439507852867937382
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1840,8 +1840,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8915305687376876470}
-        m_TargetAssemblyTypeName: OpenDrum, Assembly-CSharp
-        m_MethodName: OpenTheDrum
+        m_TargetAssemblyTypeName: OpenInstrument, Assembly-CSharp
+        m_MethodName: OpenTheInstrument
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2352,8 +2352,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5099688690440225060}
-        m_TargetAssemblyTypeName: OpenDrum, Assembly-CSharp
-        m_MethodName: OpenTheDrum
+        m_TargetAssemblyTypeName: OpenInstrument, Assembly-CSharp
+        m_MethodName: OpenTheInstrument
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

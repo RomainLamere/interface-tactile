@@ -53,6 +53,7 @@ public class RecordCirlce : MonoBehaviour
     private void StartRecord(GameObject go)
     {
         recordAudio.SetZone(myInstrument.GetComponent<HandleInstrument>().spotName);
+        recordAudio.SetInstrument(myInstrument.GetComponent<HandleInstrument>().instrument);
         recordAudio.Record();
         go.transform.GetChild(1).gameObject.SetActive(true);
     }

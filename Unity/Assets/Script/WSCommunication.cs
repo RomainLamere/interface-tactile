@@ -27,6 +27,7 @@ public class WSCommunication : MonoBehaviour
         socket.JsonSerializer = new NewtonsoftJsonSerializer();
         print("connect");
         socket.Connect();
+        socket.Emit("fromUnity", "Unity connection");
 
         socket.On("newLights", ChangeFrameColor);
         socket.On("newVoice", ReceiveSound);
@@ -41,6 +42,7 @@ public class WSCommunication : MonoBehaviour
         if(!socket.Connected)
         {
             socket.Connect();
+            socket.Emit("fromUnity", "Unity connection");
         }
         
     }
@@ -66,13 +68,12 @@ public class WSCommunication : MonoBehaviour
         print(message);
     }
 
-    public void SendRecord(FileStream file, string zone)
+    public void SendRecord(FileStream file, string zone, string instrument)
     {
         
         string str = "sendRecord" + zone;
-        print(zone);
-        print(str);
-        socket.Emit(str,new RecordObject("piano",File.ReadAllBytes(file.Name)));
+        print(str + " instrument = " + instrument);
+        socket.Emit(str,new RecordObject(instrument,File.ReadAllBytes(file.Name)));
     }
 
 
