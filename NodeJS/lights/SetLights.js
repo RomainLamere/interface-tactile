@@ -21,12 +21,10 @@ function hexToRgb(hex) {
   return null;
 }
 
-function setLights(rgbTxt) {
-	var hexRGB = hexToRgb(rgbTxt);
+function setLights(obj) {
+	var hexRGB = hexToRgb(obj.color);
 	log(`Set Lights : ${hexRGB}`);
-	setLight(1, hexRGB);
-	setLight(2, hexRGB);
-	setLight(3, hexRGB);
+	setLight(obj.id, hexRGB);
 };
 
 function setLight(light_id, hexRGB) {

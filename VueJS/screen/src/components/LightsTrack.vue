@@ -10,6 +10,7 @@
       <!-- <button @click="sendColor()">Send new color</button> -->
       <!-- <button @click="bouleDisco()">Start color track</button> -->
       <!-- <button @click="loop()">Start a loop with the color track</button> -->
+      <img :src="require(`@/assets/icons/light.png`)">
       <ColorMarker
         v-for="colorMarker in colorMarkers"
         :key="colorMarker.position"
@@ -27,7 +28,8 @@ export default {
     ColorMarker,
   },
   props:{
-    busCol: Vue
+    busCol: Vue,
+    lightId: Number
   },
   data() {
     return {
@@ -93,11 +95,8 @@ export default {
     this.unwatch = this.$store.watch(
       (getters) => getters.maxTrackWidth,
       (newVal) => {
-        console.log('LA LARGEUR A CHANGE HE OH LA HEEEEIN', newVal)
         const width = parseFloat(window.getComputedStyle(this.$refs.lightsTrack).getPropertyValue('width').split('px')[0]);
-        console.log('WIDTH DE LA TRACKLINE',width);
         if(Math.round(width) < newVal){
-          console.log('>>>>>>>>>>>>>>>>>');
           this.width = `${newVal}px`;
         }
       }
@@ -106,7 +105,7 @@ export default {
   sockets: {},
   methods: {
     sendColor() {
-      this.$socket.emit("changeLights", this.color);
+      this.$socket.emit("changeLights", {color: this.color, id: this.lightId});
     },
     clickEvent(event) {
       const rect = event.target.getBoundingClientRect();
@@ -134,7 +133,7 @@ export default {
       test.forEach((c) => {
         this.colorsTimeouts.push(
           setTimeout(() => {
-            this.$socket.emit("changeLights", c.color);
+            this.$socket.emit("changeLights",  {color: c.color, id: this.lightId});
           }, this.pxToSecond(c.position)*1000)
         );
       });
@@ -142,7 +141,7 @@ export default {
     stopBouleDisco(){
       this.colorsTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
       this.colorsTimeouts = [];
-      this.$socket.emit("changeLights", '#999')
+      this.$socket.emit("changeLights",  {color: '#999', id: this.lightId})
     },
     loop(){
       this.colorsTimeouts = [];
@@ -177,12 +176,27 @@ export default {
     display: flex;
     height: 70px;
     padding-left: 1em;
+    margin-bottom: 2px;
     background-color: gray;
   }
 
   .color-track{
     position: relative;
+    display: grid;
     height: 100%;
     width: 100%;
+  }
+
+  ColorMarker, .color-track img{
+    grid-area: 1 / 1;
+  }
+
+  .color-track img{
+    pointer-events: none;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    object-fit: cover;
+    opacity: 0.1;
   }
 </style>

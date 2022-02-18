@@ -97,7 +97,7 @@
             socket.on('newLights', (arg) => {
                 console.log('coucou');
                 const colorDiv = document.getElementById('colorD');
-                colorDiv.style.backgroundColor = arg;
+                colorDiv.style.backgroundColor = arg.color;
             });
             function sendMessage(){
                 const event = document.getElementById("event").value;

@@ -41,7 +41,6 @@ export default {
     },
     data(){
         return{
-            blobUrl: '',
             selectedZone: '',
             recordsA:[],
             recordsB:[],
@@ -79,10 +78,7 @@ export default {
                     break;
             }       
         }
-    },
-    beforeDestroy() {
-        URL.revokeObjectURL(this.blobUrl)
-    },
+    }
 }
 </script>
 <style lang="css" scoped>
