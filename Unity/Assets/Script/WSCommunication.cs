@@ -13,11 +13,13 @@ using System.IO; // for FileStream
 public class WSCommunication : MonoBehaviour
 {
     public SocketIOUnity socket;
-    public HandleColor frame;
+    public HandleColor frameGauche;
+    public HandleColor frameMilieu;
+    public HandleColor frameDroite;
     public HandlePadSounds handlePadSounds;
     private void Start()
     {
-        var uri = new Uri("http://192.168.1.13:3000");
+        var uri = new Uri("http://localhost:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
@@ -51,12 +53,18 @@ public class WSCommunication : MonoBehaviour
     public void ChangeFrameColor(SocketIOResponse obj)
     {
         print(obj);
+        print(obj.GetValue().ToString().Substring(24, 1));
         byte r = byte.Parse(obj.GetValue().ToString().Substring(11,2), System.Globalization.NumberStyles.HexNumber);
         byte g = byte.Parse(obj.GetValue().ToString().Substring(13,2), System.Globalization.NumberStyles.HexNumber);
         byte b = byte.Parse(obj.GetValue().ToString().Substring(15,2), System.Globalization.NumberStyles.HexNumber);
         
         print("new color :\nr = " + r + "/ g = " + g  + "/ b = " + b );
-        frame.ChangeColor(r, g, b, 255);
+        if(obj.GetValue().ToString().Substring(24, 1) == "1")
+            frameGauche.ChangeColor(r, g, b, 255);
+        else if (obj.GetValue().ToString().Substring(24, 1) == "2")
+            frameMilieu.ChangeColor(r, g, b, 255);
+        else
+            frameDroite.ChangeColor(r, g, b, 255);
     }
 
     public void ReceiveSound(SocketIOResponse obj)

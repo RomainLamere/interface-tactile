@@ -64,8 +64,6 @@ public class canvasScript : MonoBehaviour, IPointerEnterHandler
     }
     Vector2 getTouchPosition(Vector2 touchPosition)
     {
-        print(touchPosition.x);
-        print(touchPosition.y);
         return new Vector3(touchPosition.x-1920/2, touchPosition.y-1080/2, transform.position.z);
     }
     public void OnPointerEnter(PointerEventData eventData)
