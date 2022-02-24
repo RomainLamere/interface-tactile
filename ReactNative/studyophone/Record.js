@@ -69,9 +69,10 @@ export const Record = () =>{
     }
     useEffect(()=>{setReset(false)},[reset])
     return(
-        <View style={{height:"100%"}}>
-            <Text>Current Record Time :</Text>
+        <View style={{height:"100%", marginTop:20}}>
+            <Text style={{marginBottom:10}}>Current Record Time :</Text>
             <StopWatch msecs start={!timerInPause} reset={reset}/>
+            <View style={{marginTop:20}}>
             <Button
                 disabled={!enableRecord}
                 title={isRecord?"stop":'record'}
@@ -97,6 +98,7 @@ export const Record = () =>{
                     setIsRecord(!isRecord)
                 }}
             />
+            </View>
             {!enableRecord&&
                 <View style={{
                     display: "flex",
