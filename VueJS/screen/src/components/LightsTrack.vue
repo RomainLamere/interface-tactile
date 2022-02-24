@@ -1,5 +1,5 @@
 <template>
-  <div class="lights-track" :style="`width: ${width}`" ref="lightsTrack">
+  <div class="lights-track" :style="`width: ${width}`" ref="lightsTrack" @touchstart="touchStart" @touchend="touchEnd">
     <div class="playButton">
       <img v-if="!colorsTimeouts.length" src="@/assets/icons/bouton-jouer.png" @click="bouleDisco()" alt=""/>
       <img v-else src="@/assets/icons/stop-button.png" @click="stopBouleDisco()" alt=""/>
@@ -38,6 +38,7 @@ export default {
       color: "#000000",
       colorsTimeouts: [],
       colorMarkers: [],
+      touchStartX: 0
       //Preset rainbow
       // colorMarkers: [
       //   { position: 45, color: "#ff0000" },
@@ -119,12 +120,30 @@ export default {
         )
       ) {
         this.colorMarkers.push({ position: x, color: "#ffffff" });
-        console.log(x);
       }
     },
     markerColorChanged(event) {
       this.colorMarkers.find((c) => c.position === event.position).color =
         event.color;
+    },
+    touchStart(event){
+      const rect = event.target.getBoundingClientRect();
+      const x = event.changedTouches[0].clientX - rect.left; //x position within the element.
+      this.touchStartX = x;
+      console.log(`touchstart ${this.touchStartX}`);
+    },
+    touchEnd(event){
+      const rect = event.target.getBoundingClientRect();
+      const x = event.changedTouches[0].clientX - rect.left; //x position within the element.
+      if(this.touchStartX < x){
+        this.colorMarkers
+          .filter((e)=>e.position > this.touchStartX && e.position < x)
+          .forEach((e)=>this.deleteMarker(e))
+      }
+    },
+    deleteMarker(marker){
+      const indexOfMarker = this.colorMarkers.map((e)=>e.position).indexOf(marker.position);
+      this.colorMarkers.splice(indexOfMarker, 1);
     },
     bouleDisco() {
       const test = [...this.colorMarkers].sort(
@@ -189,6 +208,8 @@ export default {
 
   ColorMarker, .color-track img{
     grid-area: 1 / 1;
+    pointer-events: none;
+    user-select: none;
   }
 
   .color-track img{

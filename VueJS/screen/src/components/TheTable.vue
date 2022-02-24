@@ -1,15 +1,25 @@
 <template>
     <div class="main-container">
-      <Alert id="alert" :zone="alertZone"></Alert>
+      <Alert :zone="lastZoneReceived"></Alert>
         <div class="table-container">
             <input type="radio" name="zone" id="a" value="A" @click="showInstruments($event)"/>
-            <label for="a" class="zone a"></label>
+            <label for="a" class="zone a">
+                <span v-if="unseen.A" class="new-sound">!</span>
+                <span v-else>{{recordsA.length}}</span>
+            </label>
             <input type="radio" name="zone" id="b" value="B" @click="showInstruments($event)"/>
-            <label for="b" class="zone b"></label>
+            <label for="b" class="zone b">
+                <span v-if="unseen.B" class="new-sound">!</span>
+                <span v-else>{{recordsB.length}}</span>
+            </label>
             <input type="radio" name="zone" id="c" value="C" @click="showInstruments($event)"/>
-            <label for="c" class="zone c"></label>
+            <label for="c" class="zone c">
+                <span v-if="unseen.C" class="new-sound">!</span>
+                <span v-else>{{recordsC.length}}</span>            </label>
             <input type="radio" name="zone" id="d" value="D" @click="showInstruments($event)"/>
-            <label for="d" class="zone d"></label>
+            <label for="d" class="zone d">
+                <span v-if="unseen.D" class="new-sound">!</span>
+                <span v-else>{{recordsD.length}}</span>            </label>
         </div>
         <div v-if="selectedZone === 'A'" class="instru-list">
             <drag v-for="(record, index) in recordsA" :key="index" class="instru" :data="record">
@@ -49,7 +59,13 @@ export default {
             recordsB:[],
             recordsC:[],
             recordsD:[],
-            alertZone: 'no zone'
+            lastZoneReceived: '',
+            unseen: {
+                A: false,
+                B: false,
+                C: false,
+                D: false
+            }
         }
     },
     sockets:{},
@@ -58,6 +74,7 @@ export default {
             if(this.selectedZone != event.target.value){
                 if(event.target.checked){
                     this.selectedZone = event.target.value;
+                    this.unseen[this.selectedZone] = false;
                 }
             }else{
                 this.selectedZone = '';
@@ -65,31 +82,30 @@ export default {
             console.log(this.selectedZone);
         },
       displayAlert(zone){
-          this.alertZone = zone;
-         document.getElementById("alert").style.visibility = "visible";
-          setTimeout(()=>{
-            document.getElementById("alert").style.visibility = "hidden";
-          },5000)
+        this.lastZoneReceived = zone;
+        setTimeout(()=>{
+            this.lastZoneReceived = '';
+        },5000);
       }
     },
     created(){
         this.$options.sockets.addRecord = (data) => {
+            this.displayAlert(data.zone);
+            if(data.zone != this.selectedZone){
+                this.unseen[data.zone] = true;
+            }
             switch(data.zone){
                 case 'A':
                     this.recordsA.push(data);
-                  this.displayAlert('rouge');
                     break;
                 case 'B':
                     this.recordsB.push(data);
-                    this.displayAlert('verte');
                     break;
                 case 'C':
                     this.recordsC.push(data);
-                  this.displayAlert('bleue');
                     break;
                 case 'D':
                     this.recordsD.push(data);
-                  this.displayAlert('jaune');
                     break;
             }
         }
@@ -124,10 +140,46 @@ export default {
 
     .zone{
         /* border: 1px solid black; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
         min-width: 45%;
         height: 33%;
         margin-top: 5px;
         position: relative;
+        text-align: center;
+        font-size: 2.7em;
+        font-family: sans-serif;
+        font-weight: bold;
+        color: white;
+    }
+
+    .new-sound{
+        animation: newSound 2s ease infinite;
+    }
+
+    @keyframes newSound {
+        0%{
+            transform: scale(1);
+        }
+        50%{
+            transform: scale(1.3);
+        }
+        60%{
+            transform: rotate(10deg);
+        }
+        70%{
+            transform: rotate(-10deg);
+        }
+        80%{
+            transform: rotate(10deg);
+        }
+        90%{
+            transform: rotate(-10deg);
+        }
+        100%{
+            transform: rotate(10deg);
+        }
     }
 
     .zone::before{
@@ -145,19 +197,9 @@ export default {
         background-color: #d66f6f;
     }
 
-    .a::before{
-        content: "!";
-        color: white;
-    }
-
     .b{
         border-color: #00d30b;
         background-color: #6fd674;
-    }
-
-    .b::before{
-      content: "!";
-      color: white;
     }
 
     .c{
@@ -165,19 +207,9 @@ export default {
         background-color: #6f87d6;
     }
 
-    .c::before{
-      content: "!";
-      color: white;
-    }
-
     .d{
         border-color: yellow;
         background-color: #d4d66f;
-    }
-
-    .d::before{
-      content: "!";
-      color: white;
     }
 
     input[type=radio]:checked + label{
