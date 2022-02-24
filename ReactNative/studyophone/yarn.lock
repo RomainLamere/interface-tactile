@@ -5697,6 +5697,13 @@ react-native-screens@^3.12.0:
     react-native-gradle-plugin "^0.0.3"
     warn-once "^0.1.0"
 
+react-native-stopwatch-timer@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/react-native-stopwatch-timer/-/react-native-stopwatch-timer-0.0.21.tgz#52c39f603e36c538bed3466212b1bfb350ed452f"
+  integrity sha512-qFFsD85NkBT1nxo32HMGq3XAtQyMC09p9ZDIEuOED2BOxgs0UpWg/FSTA0MmEoIKMyXUwSE5VxEzBaGP3z1HFw==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native@0.67.3:
   version "0.67.3"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.67.3.tgz#ee8bafb644afbe511a4a2c8e9c144a9720d06dd8"
