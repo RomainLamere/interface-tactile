@@ -6,9 +6,10 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {Node} from 'react';
 import {
+  PermissionsAndroid,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -27,16 +28,27 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {DarkTheme, NavigationContainer} from "@react-navigation/native";
 import {BottomNavigation} from "./BottomTabs";
+import {Topbar} from "./TopBar";
+import {UserContextProvider} from "./UserContext";
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  useEffect(() => {
+    PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        //PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    );
+  }, []);
   return (
 
       <NavigationContainer  theme={DarkTheme}>
+        <UserContextProvider>
+        <Topbar/>
         <BottomNavigation/>
+        </UserContextProvider>
       </NavigationContainer>
 
   );
