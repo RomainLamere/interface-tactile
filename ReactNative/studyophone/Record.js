@@ -13,6 +13,8 @@ import AudioRecord from 'react-native-audio-record';
 import {UserContext} from "./UserContext";
 import {readFile} from 'react-native-fs';
 import StopWatch from "react-native-stopwatch-timer/lib/stopwatch";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
 export const Record = () =>{
     const [userContext, setUserContext] = useContext(UserContext);
@@ -25,7 +27,9 @@ export const Record = () =>{
     const [timerInPause, setTimerInPause] = useState(true)
     const [isRecord,setIsRecord] =  useState(false)
     const [currentTimerCount, setCurrentTimerCount] = useState(0)
-
+    const [enableRecord, setEnableRecord]= useState(true)
+    const [chunk,setChunk]= useState(null)
+    const [reset,setReset]=useState(false)
     useEffect(()=>{
             if(!timerInPause){
 
@@ -41,6 +45,7 @@ export const Record = () =>{
         else {
             setTimerInPause(true)
             setCurrentTimerCount(0)
+            setEnableRecord(false)
         }
     }
     const transformTimer = (timer)=>{
@@ -62,11 +67,13 @@ export const Record = () =>{
         const base64String = await readFile(uri, 'base64');
         return base64String;
     }
+    useEffect(()=>{setReset(false)},[reset])
     return(
         <View style={{height:"100%"}}>
             <Text>Current Record Time :</Text>
-            <StopWatch msecs start={!timerInPause}/>
+            <StopWatch msecs start={!timerInPause} reset={reset}/>
             <Button
+                disabled={!enableRecord}
                 title={isRecord?"stop":'record'}
                 onPress={() => {
 
@@ -81,16 +88,51 @@ export const Record = () =>{
                             console.log(r);
                             getUriToBase64(r).then(r2 => {
                                 console.log(sound);
-                                const chunk = Buffer.from(r2, 'base64');
+                                setChunk(  Buffer.from(r2, 'base64'))
                                 //Uint8Array.from(atob(base64_string), c => c.charCodeAt(0))
-                                userContext.socket.emit('voiceFromPhone', chunk);
-                                setSound('');
+
                             });
                         });
                     }
                     setIsRecord(!isRecord)
                 }}
             />
+            {!enableRecord&&
+                <View style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: 100
+                }}>
+                    <Pressable style={{display: "flex", flexDirection: "column"}} onPress={()=>{
+                        setEnableRecord(true)
+                        userContext.socket.emit('voiceFromPhone', chunk);
+                        setSound('');
+                        setReset(true)
+                    }}>
+                        <MaterialCommunityIcons
+                            name="send"
+                            size={55}
+                            color={'white'}
+                            style={{marginRight: 20, alignSelf: 'center'}}
+                        />
+                        <Text>Envoyer</Text>
+                    </Pressable>
+                    <Pressable style={{display: "flex", flexDirection: "column", marginLeft: 50}} onPress={()=>{
+                        setEnableRecord(true)
+                        setReset(true)
+                    }}>
+                        <MaterialCommunityIcons
+                            name="delete"
+                            size={55}
+                            color={'white'}
+                            style={{marginRight: 20, alignSelf: 'center'}}
+                        />
+                        <Text>Supprimer</Text>
+                    </Pressable>
+                </View>
+            }
         </View>
     )
 }
