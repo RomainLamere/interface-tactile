@@ -6,6 +6,7 @@
  * @flow strict-local
  */
 
+
 import React, {useEffect, useState} from 'react';
 import {readFile} from 'react-native-fs';
 import type {Node} from 'react';
@@ -32,6 +33,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Botab} from './botab';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+
 
 const App: () => Node = () => {
   const [ENDPOINT, setEndpoint] = useState('192.168.43.60:3000');
@@ -92,53 +96,59 @@ const App: () => Node = () => {
     return base64String;
   }
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Text style={{alignSelf: 'center', marginTop: 20}}>
-        From server : {response}
-      </Text>
-      <TextInput
+    <View style={backgroundStyle}>
+      {/*
+
+        <Text style={{alignSelf: 'center', marginTop: 20}}>
+          From server : {response}
+        </Text>
+        <TextInput
         placeholder={'enter your bpm'}
         keyboardType="numeric"
         onChangeText={newText => setText(newText)}
         defaultValue={text}
-      />
-      <Button
+        />
+        <Button
         onPress={() => setBpm(text === '' ? 0 : parseInt(text))}
         title={'enter'}
-      />
-      <Button title={'stop'} onPress={Vibration.cancel} />
-      <TextInput
+        />
+        <Button title={'stop'} onPress={Vibration.cancel} />
+        <TextInput
         placeholder={'enter the address'}
         keyboardType="numeric"
         onChangeText={newText => setTextAdd(newText)}
         defaultValue={textAdd}
         onEndEditing={() => setEndpoint(textAdd)}
-      />
-      <Text>Current address is : {ENDPOINT}</Text>
-      <Button
+        />
+        <Text>Current address is : {ENDPOINT}</Text>
+        <Button
         title={'record'}
         onPress={() => {
-          AudioRecord.init(options);
-          AudioRecord.start();
-        }}
-      />
-      <Button
+        AudioRecord.init(options);
+        AudioRecord.start();
+      }}
+        />
+        <Button
         title={'stop'}
         onPress={() => {
-          AudioRecord.stop().then(r => {
-            console.log(r);
-            getUriToBase64(r).then(r2 => {
-              console.log(sound);
-              const chunk = Buffer.from(r2, 'base64');
-              //Uint8Array.from(atob(base64_string), c => c.charCodeAt(0))
-              socket.emit('voiceFromPhone', chunk);
-              setSound('');
-            });
+        AudioRecord.stop().then(r => {
+          console.log(r);
+          getUriToBase64(r).then(r2 => {
+            console.log(sound);
+            const chunk = Buffer.from(r2, 'base64');
+            //Uint8Array.from(atob(base64_string), c => c.charCodeAt(0))
+            socket.emit('voiceFromPhone', chunk);
+            setSound('');
           });
-        }}
-      />
-      <Text>{path}</Text>
-    </SafeAreaView>
+        });
+      }}
+        />
+        <Text>{path}</Text>
+      */}
+      <NavigationContainer>
+        <Botab />
+      </NavigationContainer>
+    </View>
   );
 };
 
