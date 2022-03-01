@@ -18,6 +18,7 @@ public class UpdateTouches : MonoBehaviour
         soundPath = Application.persistentDataPath + "/PadSounds/";
         StartCoroutine(UpdateAllTouche());
         count = Directory.GetFiles(Application.persistentDataPath + "/PadSounds").Length;
+        print("awake");
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class UpdateTouches : MonoBehaviour
     {
         if(count!= Directory.GetFiles(Application.persistentDataPath + "/PadSounds").Length)
         {
-            StartCoroutine(UpdateAllTouche());
+            StartCoroutine(wait(1f));    
         }
     }
 
@@ -40,6 +41,11 @@ public class UpdateTouches : MonoBehaviour
             this.transform.GetChild(i).GetChild(0).GetComponent<AudioSource>().clip.name = i+1+".wav";
 
         }
+    }
+    public IEnumerator wait(float t)
+    {
+        yield return new WaitForSeconds(t);
+        Awake();
     }
     private WWW GetAudioFromFile(string path, string filename)
     {

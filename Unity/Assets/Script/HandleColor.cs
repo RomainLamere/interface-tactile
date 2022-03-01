@@ -23,7 +23,10 @@ public class HandleColor : MonoBehaviour
     {
         if(r!=rOld || g!=gOld || b != bOld)
         {
-            image.color = new Color32(r, g, b, 255);
+            for(int i =0; i< transform.childCount; i++)
+            {
+                transform.GetChild(i).GetComponent<HandleOpacity>().color = new Color(r,g,b);
+            }
             rOld = r;
             gOld = g;
             bOld = b;
