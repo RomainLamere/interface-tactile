@@ -25,7 +25,7 @@ public class HandleColor : MonoBehaviour
         {
             for(int i =0; i< transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<HandleOpacity>().color = new Color(r,g,b);
+                transform.GetChild(i).GetComponent<HandleOpacity>().color = new Color(r/255f,g/255f,b/255f);
             }
             rOld = r;
             gOld = g;

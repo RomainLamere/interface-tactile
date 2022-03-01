@@ -27,7 +27,7 @@ public class HandleOpacity : MonoBehaviour
         else if (fadeStart < 2 * fadeTime)
         {
             fadeStart += Time.deltaTime;
-            this.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.5f*(1-(fadeStart/2)));
+            this.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.5f*(1-((fadeStart-fadeTime)/fadeTime)));
         }
         else
         {

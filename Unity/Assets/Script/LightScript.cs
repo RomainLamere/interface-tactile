@@ -10,7 +10,7 @@ public class LightScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HandleCircle();
+        StartCoroutine(HandleCircle());
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class LightScript : MonoBehaviour
         start = true;
     }
 
-    public void HandleCircle()
+    public IEnumerator HandleCircle()
     {
         GameObject go;
         for(int i = 0; i < 8; i++)
@@ -32,6 +32,7 @@ public class LightScript : MonoBehaviour
             go = Instantiate(circle, this.transform);
             go.GetComponent<RectTransform>().localPosition = new Vector2(Random.Range(-3f, 3f), Random.Range(-1f, 1f));
             go.SetActive(true);
+            yield return new WaitForSeconds(0.2f);
         }
     }
      
