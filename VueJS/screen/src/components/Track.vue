@@ -1,21 +1,12 @@
 <template>
   <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}" @dblclick="soundControl()">
-<!--    <div :class="`instru ${trackZone}`">-->
-<!--      <img-->
-<!--        v-if="instrument !== ''"-->
-<!--        :src="require(`@/assets/icons/${instrument}.png`)"-->
-<!--        alt=""-->
-<!--      />-->
-<!--      <template v-else>-->
-<!--        <div>select track<br>from table</div>-->
-<!--      </template>-->
-<!--    </div>-->
-      <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
-        <img
+    <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
+      <img
           v-if="instrument !== ''"
           :src="require(`@/assets/icons/${instrument}.png`)"/>
-        <div class="line"></div>
-      </div>
+      <div class="line"></div>
+      <div id="deleteTrackButton" v-bind:style="styleTrackSound" v-if="instrument !== ''" :src="require(`@/assets/icons/${instrument}.png`)" @click="deleteTrack()">x</div>
+    </div>
   </drop>
 </template>
 <script>
@@ -28,79 +19,97 @@ export default {
   },
   props:{
     index: Number,
-    bus: Vue
+    bus: Vue,
   },
   data() {
     return {
-      trackZone: '',
       instrument: '',
+      trackZone: '',
       recordAsArrayBuffer: null,
       audioContext: new AudioContext(),
       soundPaused: true,
       firstPlay: true,
       styleTrackSound: {
-        height: "100%",
-        width: "100%",
+        width: "100px",
       },
-      timeOutPlayBoolean : false,
       timeOutPlay : null,
-      timeOutPlay2 : null,
-      timeOutPlayLineBoolean : false,
-      timeOutPlayLine : null,
     };
   },
   created() {
     // check si on doit jouer ou stopper la track
     this.bus.$on('playTrack', ($event) => {
-      if(this.timeOutPlayLineBoolean === true) {
-        clearTimeout(this.timeOutPlayLine);
-        clearTimeout(this.timeOutPlay);
-        clearTimeout(this.timeOutPlay2);
-        this.timeOutPlayLineBoolean = false;
-        if(this.timeOutPlayBoolean === true) {
-          this.soundControl();
+      if (this.index !== -1 && $event !== -1) {
+        if (this.$store.getters.arrayTracksPlaying[$event][this.index] === true) { // si en train d'etre joué
+          this.soundControl($event);
+        } else { // pas en train d'etre joué
+          if (this.timeOutPlay === null && this.$store.getters.trackLineCanPlay[$event] !== false && this.$store.getters.arrayTracksDuration[$event] !== undefined) { // si pas prevu detre jouer
+            this.timeOutPlay = setTimeout(() => {
+              this.soundControl($event);
+              this.timeOutPlay = null;
+            }, this.$store.getters.arrayTracksDuration[$event][this.index] * 1000);
+          } else { // si prevu detre joué
+            clearTimeout(this.timeOutPlay);
+            this.timeOutPlay = null;
+          }
         }
-        this.timeOutPlayBoolean = false;
-      }else{
-        this.timeOutPlayLineBoolean = true
-        this.timeOutPlayLine = setTimeout(() => {
-          this.timeOutPlayLineBoolean = false;
-        }, $event[$event.length-1] * 1000);
-
-        this.timeOutPlay = setTimeout(() => {
-          this.timeOutPlayBoolean = true;
-          this.soundControl();
-        }, $event[this.index] * 1000);
-
-        this.timeOutPlay2 = setTimeout(() => {
-          this.timeOutPlayBoolean = false;
-        }, $event[this.index+1] * 1000);
       }
     });
-
+    this.bus.$on('reloadDisplay', ($event) => {
+      if(this.index !== -1) {
+        if (this.index >= this.$store.getters.arrayTracks[$event].length) {
+          this.index = -1;
+        } else {
+          let instrument = this.$store.getters.arrayTracks[$event][this.index].instrument;
+          if (instrument === undefined) {
+            this.instrument = '';
+          } else {
+            this.instrument = instrument;
+          }
+          this.trackZone = this.$store.getters.arrayTracks[$event][this.index].trackZone;
+          this.recordAsArrayBuffer = this.$store.getters.arrayTracks[$event][this.index].recordAsArrayBuffer;
+          let widthTrack = this.$store.getters.arrayTracks[$event][this.index].styleTrackSoundWidth;
+          if (widthTrack === undefined) {
+            this.styleTrackSound.width = "100px";
+          } else {
+            this.styleTrackSound.width = widthTrack;
+            this.styleTrackSound.width = widthTrack;
+          }
+        }
+      }
+    });
   },
   methods: {
+    deleteTrack(){
+      this.$emit("trackDeleted", this.index);
+    },
     trackDropped(e) {
-      this.$emit('sourceadded');
       this.trackZone = e.data.zone;
       this.instrument = e.data.instrument;
       this.recordAsArrayBuffer = e.data.record;
       this.audioContext.decodeAudioData(this.copyBuff(), (decoded) =>{
         this.styleTrackSound.width = decoded.duration*20+"px";
+        let track = {
+          "trackZone" : this.trackZone,
+          "instrument" : this.instrument,
+          "recordAsArrayBuffer" : this.recordAsArrayBuffer,
+          "styleTrackSoundWidth" : decoded.duration*20+"px",
+          "duration" : decoded.duration
+        }
+        this.$emit('sourceadded',track);
         this.$emit("duration", decoded.duration);
       });
     },
-    playSound(){
+    playSound(line){
       if(this.recordAsArrayBuffer){
         const audioBuffer = this.copyBuff();
         let source = this.audioContext.createBufferSource();
         source.onended = async () => {
           this.audioContext.close().then(() => {
             this.soundPaused = true;
-            this.$emit("finish", this.index)
             this.firstPlay = true;
           });
           this.audioContext = new AudioContext();
+          this.$store.commit("changeStateArrayTracksPlaying", {"line": line, "index":this.index, "play":false})
         };
         this.audioContext.decodeAudioData(audioBuffer, (decoded) =>{
           source.buffer = decoded;
@@ -109,29 +118,21 @@ export default {
         });
       }
     },
-    soundControl(){
+    soundControl(line){
       if(this.recordAsArrayBuffer) {
         if (this.firstPlay) {
-          this.$emit("play", this.index);
-          this.playSound();
+          this.$store.commit("changeStateArrayTracksPlaying", {"line": line, "index":this.index, "play":true})
+          this.playSound(line);
           this.soundPaused = false;
           this.firstPlay = false;
         } else{
           this.audioContext.close().then(() => {
             this.soundPaused = true;
             this.firstPlay = true;
-            this.$emit("finish", this.index)
           });
           this.audioContext = new AudioContext();
-        }/*else if (this.audioContext.state === 'running' && !this.soundPaused) {
-          this.audioContext.suspend().then(() => {
-            this.soundPaused = true;
-          });
-        } else if (this.audioContext.state === 'suspended' && this.soundPaused) {
-          this.audioContext.resume().then(() => {
-            this.soundPaused = false;
-          });
-        }*/
+          this.$store.commit("changeStateArrayTracksPlaying", {"line": line, "index":this.index, "play":false})
+        }
       }
     },
     copyBuff(){
@@ -211,5 +212,17 @@ export default {
   margin: auto;
   object-fit: cover;
   opacity: 0.1;
+}
+
+#deleteTrackButton{
+  position: absolute;
+  text-align: right;
+  color: darkred;
+  font-size: 25px;
+  font-family: Arial;
+}
+
+#deleteTrackButton:hover{
+  cursor: pointer;
 }
 </style>
