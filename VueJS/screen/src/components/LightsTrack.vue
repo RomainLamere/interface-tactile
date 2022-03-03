@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       width: '100%',
-      unwatch: null,
+      unwatchWidth: null,
+      unwatchTracks: null,
       color: "#000000",
       colorsTimeouts: [],
       colorMarkers: [],
@@ -91,9 +92,10 @@ export default {
       this.bouleDisco();
     });
     this.busCol.$on('soundListeningEnded', () => {
+      console.log('SOUND FINISHED TO PLAY');
       this.stopBouleDisco();
     });
-    this.unwatch = this.$store.watch(
+    this.unwatchWidth = this.$store.watch(
       (getters) => getters.maxTrackWidth,
       (newVal) => {
         const width = parseFloat(window.getComputedStyle(this.$refs.lightsTrack).getPropertyValue('width').split('px')[0]);
@@ -102,6 +104,12 @@ export default {
         }
       }
     );
+    this.unwatchTracks = this.$store.watch(
+      (getters) => getters.allTrackCanPlay,
+      (newVal) => {
+        if(newVal) this.stopBouleDisco();
+      }
+    )
   },
   sockets: {},
   methods: {

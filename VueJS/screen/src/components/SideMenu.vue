@@ -1,9 +1,5 @@
 <template>
   <div class="side-menu-container">
-    <div class="metronome">
-      <input type="number" placeholder="Enter BPM value" v-model="bpm">
-      <button @click="sendBPM()">Send BPM</button>
-    </div>
     <the-table></the-table>
   </div>
 </template>
@@ -47,8 +43,4 @@ export default {
   border-radius: 10px;
   height: 8px;
 }
-
-  .metronome input{
-    width: 100%;
-  }
 </style>
