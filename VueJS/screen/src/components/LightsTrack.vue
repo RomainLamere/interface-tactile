@@ -1,8 +1,8 @@
 <template>
   <div class="lights-track" :style="`width: ${width}`" ref="lightsTrack" @touchstart="touchStart" @touchend="touchEnd">
     <div class="playButton">
-      <img v-if="!colorsTimeouts.length" src="@/assets/icons/bouton-jouer.png" @click="bouleDisco()" alt=""/>
-      <img v-else src="@/assets/icons/stop-button.png" @click="stopBouleDisco()" alt=""/>
+      <img v-if="!colorsTimeouts.length" src="@/assets/icons/bouton-jouer.png" @click="bouleDisco()" alt="" draggable="false"/>
+      <img v-else src="@/assets/icons/stop-button.png" @click="stopBouleDisco()" alt="" draggable="false"/>
     </div>
     <div class="color-track" @click="clickEvent">
       <!-- <input type="color" name="color" id="color" v-model="color" />

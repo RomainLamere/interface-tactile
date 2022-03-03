@@ -1,9 +1,8 @@
 <template>
   <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}" @dblclick="soundControl()">
     <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
-      <img
-          v-if="instrument !== ''"
-          :src="require(`@/assets/icons/${instrument}.png`)"/>
+      <img v-if="instrument !== ''" :src="require(`@/assets/icons/${instrument}.png`)" draggable="false"/>
+      <img v-else :src="require('@/assets/icons/musical-note.png')" draggable="false"/>
       <div class="line"></div>
       <button class="delete-track-btn" v-if="instrument !== ''" @click="deleteTrack()">x</button>
     </div>
