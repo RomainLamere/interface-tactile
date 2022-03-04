@@ -52,7 +52,7 @@ public class OpenInstrument : MonoBehaviour
         if (mySpot.GetComponent<Spot>().free)
         {
             mySpot.GetComponent<Spot>().TakeSpot();
-            GameObject newInstrument = Instantiate(instrumentPrefab, parent.transform.parent);
+            GameObject newInstrument = Instantiate(instrumentPrefab, GameObject.Find("Instrument Container").transform);
             if (mySpot.GetComponent<RectTransform>().localPosition.y > 0)
             {
                 newInstrument.GetComponent<RectTransform>().Rotate(0f, 0f, 180f);

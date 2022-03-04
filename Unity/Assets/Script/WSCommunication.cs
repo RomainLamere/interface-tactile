@@ -19,7 +19,7 @@ public class WSCommunication : MonoBehaviour
     public HandlePadSounds handlePadSounds;
     private void Start()
     {
-        var uri = new Uri("http://localhost:3000");
+        var uri = new Uri("http://192.168.1.2:3000");
         socket = new SocketIOUnity(uri, new SocketIOOptions
         {
             EIO = 4
