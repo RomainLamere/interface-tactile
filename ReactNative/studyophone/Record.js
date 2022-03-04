@@ -15,36 +15,24 @@ import {readFile} from 'react-native-fs';
 import StopWatch from "react-native-stopwatch-timer/lib/stopwatch";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import {Buffer} from 'buffer';
 
 export const Record = () =>{
     const [userContext, setUserContext] = useContext(UserContext);
-    //const [path, setPath] = useState('');
-    const [sound, setSound] = useState('');
-    AudioRecord.on('data', data => {
-        //console.debug(data);
-        setSound(sound + data);
-    });
+    const [path, setPath] = useState('');
+    //const [sound, setSound] = useState('');
     const [timerInPause, setTimerInPause] = useState(true)
     const [isRecord,setIsRecord] =  useState(false)
-    const [currentTimerCount, setCurrentTimerCount] = useState(0)
     const [enableRecord, setEnableRecord]= useState(true)
     const [chunk,setChunk]= useState(null)
     const [reset,setReset]=useState(false)
-    useEffect(()=>{
-            if(!timerInPause){
 
-                    setInterval(()=>{setCurrentTimerCount(currentTimerCount+10)},10)
-
-            }
-        },
-        [timerInPause])
     const changeTimerPause=()=>{
         if(timerInPause){
             setTimerInPause(false)
         }
         else {
             setTimerInPause(true)
-            setCurrentTimerCount(0)
             setEnableRecord(false)
         }
     }
@@ -61,13 +49,24 @@ export const Record = () =>{
         channels: 1, // 1 or 2, default 1
         bitsPerSample: 16, // 8 or 16, default 16
         audioSource: 6, // android only (see below)
-        wavFile: 'test.wav', // default 'audio.wav'
+        wavFile: 'audio.wav', // default 'audio.wav'
     };
     async function getUriToBase64(uri) {
         const base64String = await readFile(uri, 'base64');
         return base64String;
     }
-    useEffect(()=>{setReset(false)},[reset])
+    useEffect(()=>{if(reset){setReset(false)
+        var RNFS = require('react-native-fs');
+
+        RNFS.unlink(path)
+            .then(() => {
+                console.log('FILE DELETED');
+            })
+            // `unlink` will throw an error, if the item to unlink does not exist
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }},[reset])
     return(
         <View style={{height:"100%", marginTop:20}}>
             <Text style={{marginBottom:10}}>Current Record Time :</Text>
@@ -86,13 +85,15 @@ export const Record = () =>{
                     else {
                         changeTimerPause()
                         AudioRecord.stop().then(r => {
-                            console.log(r);
+                            //console.log("1");
                             getUriToBase64(r).then(r2 => {
-                                console.log(sound);
+                                //console.log("2");
+                                setPath(r)
                                 setChunk(  Buffer.from(r2, 'base64'))
+                                //console.log(r2)
                                 //Uint8Array.from(atob(base64_string), c => c.charCodeAt(0))
 
-                            });
+                            }).catch(e=>console.log(e));
                         });
                     }
                     setIsRecord(!isRecord)
@@ -109,9 +110,12 @@ export const Record = () =>{
                 }}>
                     <Pressable style={{display: "flex", flexDirection: "column"}} onPress={()=>{
                         setEnableRecord(true)
+                        //.debug(chunk)
+                        if(chunk!==null){
                         userContext.socket.emit('voiceFromPhone', chunk);
-                        setSound('');
+                        //setSound('');
                         setReset(true)
+                        setChunk(null)}
                     }}>
                         <MaterialCommunityIcons
                             name="send"
@@ -124,6 +128,7 @@ export const Record = () =>{
                     <Pressable style={{display: "flex", flexDirection: "column", marginLeft: 50}} onPress={()=>{
                         setEnableRecord(true)
                         setReset(true)
+                        setChunk(null)
                     }}>
                         <MaterialCommunityIcons
                             name="delete"

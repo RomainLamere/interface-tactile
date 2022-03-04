@@ -13,6 +13,7 @@
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/core": "^6.1.1",
     "@react-navigation/native": "^6.0.8",
+    "buffer": "^6.0.3",
     "react": "17.0.2",
     "react-native": "0.67.3",
     "react-native-audio-record": "^0.2.2",
