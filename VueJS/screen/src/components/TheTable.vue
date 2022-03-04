@@ -2,43 +2,43 @@
     <div class="main-container">
       <Alert :zone="lastZoneReceived"></Alert>
         <div class="table-container">
-            <input type="radio" name="zone" id="a" value="A" @click="showInstruments($event)"/>
+            <input type="radio" name="zone" id="a" ref="rA" value="A" @click="showInstruments($event)"/>
             <label for="a" class="zone a">
                 <span v-if="unseen.A" class="new-sound">!</span>
                 <span v-else>{{recordsA.length}}</span>
             </label>
-            <input type="radio" name="zone" id="b" value="B" @click="showInstruments($event)"/>
+            <input type="radio" name="zone" id="b" ref="rB" value="B" @click="showInstruments($event)"/>
             <label for="b" class="zone b">
                 <span v-if="unseen.B" class="new-sound">!</span>
                 <span v-else>{{recordsB.length}}</span>
             </label>
-            <input type="radio" name="zone" id="c" value="C" @click="showInstruments($event)"/>
+            <input type="radio" name="zone" id="c" ref="rC" value="C" @click="showInstruments($event)"/>
             <label for="c" class="zone c">
                 <span v-if="unseen.C" class="new-sound">!</span>
                 <span v-else>{{recordsC.length}}</span>            </label>
-            <input type="radio" name="zone" id="d" value="D" @click="showInstruments($event)"/>
+            <input type="radio" name="zone" id="d" ref="rD" value="D" @click="showInstruments($event)"/>
             <label for="d" class="zone d">
                 <span v-if="unseen.D" class="new-sound">!</span>
                 <span v-else>{{recordsD.length}}</span>            </label>
         </div>
         <div v-if="selectedZone === 'A'" class="instru-list">
             <drag v-for="(record, index) in recordsA" :key="index" class="instru" :data="record">
-                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument" draggable="false">
             </drag>
         </div>
         <div v-if="selectedZone === 'B'" class="instru-list">
             <drag v-for="(record, index) in recordsB" :key="index" class="instru" :data="record">
-                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument" draggable="false">
             </drag>
         </div>
         <div v-if="selectedZone === 'C'" class="instru-list">
             <drag v-for="(record, index) in recordsC" :key="index" class="instru" :data="record">
-                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument" draggable="false">
             </drag>
         </div>
         <div v-if="selectedZone === 'D'" class="instru-list">
             <drag v-for="(record, index) in recordsD" :key="index" class="instru" :data="record">
-                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument">
+                <img :src="require(`@/assets/icons/${record.instrument}.png`)" :alt="record.instrument" draggable="false">
             </drag>
         </div>
     </div>
@@ -77,6 +77,7 @@ export default {
                     this.unseen[this.selectedZone] = false;
                 }
             }else{
+                this.$refs[`r${this.selectedZone}`].checked = false;
                 this.selectedZone = '';
             }
             console.log(this.selectedZone);
@@ -120,6 +121,7 @@ export default {
 
     label{
         cursor: pointer;
+        user-select: none;
     }
 
     .main-container{

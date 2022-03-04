@@ -2,8 +2,8 @@
   <div class="workspace-container">
     <div class="studyo">
       <div class="playButton">
-        <img v-if="$store.getters.allTrackCanPlay" src="@/assets/icons/bouton-jouer.png" @click="playTrack()" alt=""/>
-        <img v-else src="@/assets/icons/stop-button.png" @click="playTrack()" alt=""/>
+        <img v-if="$store.getters.allTrackCanPlay" src="@/assets/icons/bouton-jouer.png" @click="playTrack()" alt="" draggable="false"/>
+        <img v-else src="@/assets/icons/stop-button.png" @click="playTrack()" alt="" draggable="false"/>
       </div>
       <div class="compose">
         <Tracker :busCol="busCol"></Tracker>

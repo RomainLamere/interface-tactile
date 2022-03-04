@@ -1,8 +1,8 @@
 <template>
   <div class="lineSound" ref="lineSound">
     <div class="playButton">
-      <img v-if="canPlay" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt=""/>
-      <img v-else src="@/assets/icons/stop-button.png" @click="playTracks()" alt=""/>
+      <img v-if="canPlay" src="@/assets/icons/bouton-jouer.png" @click="playTracks()" alt="" draggable="false"/>
+      <img v-else src="@/assets/icons/stop-button.png" @click="playTracks()" alt="" draggable="false"/>
     </div>
     <Track v-for="(n, indexTrack) in this.$store.getters.arrayTracks[index]" :key="indexTrack" v-bind:index="indexTrack" v-on:sourceadded="soundRecordAdded($event)" v-on:duration="addDuration($event)" v-on:trackDeleted="deleteTrack($event)" :bus="bus"></Track>
   </div>

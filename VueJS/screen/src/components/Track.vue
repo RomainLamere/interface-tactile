@@ -1,11 +1,10 @@
 <template>
   <drop class="drop-zone" @drop="trackDropped" :class="{empty: trackZone === ''}" @dblclick="soundControl()">
     <div v-bind:style="styleTrackSound" class="sound" :class="`${trackZone}`">
-      <img
-          v-if="instrument !== ''"
-          :src="require(`@/assets/icons/${instrument}.png`)"/>
+      <img v-if="instrument !== ''" :src="require(`@/assets/icons/${instrument}.png`)" draggable="false"/>
+      <img v-else :src="require('@/assets/icons/musical-note.png')" draggable="false"/>
       <div class="line"></div>
-      <div id="deleteTrackButton" v-bind:style="styleTrackSound" v-if="instrument !== ''" :src="require(`@/assets/icons/${instrument}.png`)" @click="deleteTrack()">x</div>
+      <button class="delete-track-btn" v-if="instrument !== ''" @click="deleteTrack()">x</button>
     </div>
   </drop>
 </template>
@@ -176,6 +175,10 @@ export default {
   height: 60px;
 }
 
+.sound{
+  position: relative;
+}
+
 .sound .line{
   width: 100%;
   height: 10px;
@@ -214,15 +217,15 @@ export default {
   opacity: 0.1;
 }
 
-#deleteTrackButton{
-  position: absolute;
-  text-align: right;
-  color: darkred;
-  font-size: 25px;
-  font-family: Arial;
-}
-
-#deleteTrackButton:hover{
+.delete-track-btn{
+  border: none;
+  background-color: transparent;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  color: red;
+  font-size: 25px;
+  font-family: sans-serif;
+  font-weight: bold;
 }
 </style>
